@@ -214,23 +214,200 @@ body{
     }
 }
 
-@media (max-width: 560px){
-    .comeco{
-        padding: 7px 4px;
-        gap: 2px;
+.produtos{
+    padding: 64px 12px 0;
 
-        .txt{
-            padding: 0 5px;
-            gap: 4px;
+    .titulo{
+        margin-bottom: 38px;
 
-            h1{
-                font-size: 9px;
+        h1{
+            margin-bottom: 12px;
+            font-size: 28px;
+        }
+
+        p{
+            color: #999999;
+            font-size: 14px;
+        }
+    }
+
+    .cadastro,
+    .estoque{
+        overflow: hidden;
+        border: 1px solid #555555;
+        border-radius: 12px;
+        background-color: #000000;
+    }
+
+    .cadastro{
+        margin-bottom: 64px;
+
+        h2{
+            min-height: 54px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #444444;
+            font-size: 16px;
+        }
+
+        form{
+            padding: 28px 32px 24px;
+        }
+
+        .campos{
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: 56px;
+            row-gap: 24px;
+            margin-bottom: 22px;
+        }
+
+        .campo{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            label{
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            input,
+            textarea{
+                width: 100%;
+                box-sizing: border-box;
+                border: 1px solid #dddddd;
+                border-radius: 7px;
+                background-color: #b5b5b5;
+                color: #111111;
+                font: inherit;
+            }
+
+            input{
+                height: 34px;
+                padding: 0 10px;
+            }
+
+            textarea{
+                min-height: 120px;
+                padding: 10px;
+                resize: vertical;
+            }
+        }
+
+        .descricao{
+            margin-bottom: 22px;
+        }
+
+        button{
+            min-height: 34px;
+            padding: 0 18px;
+            border: 0;
+            border-radius: 20px;
+            background-color: #ffffff;
+            color: #111111;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+
+            &:hover{
+                background-color: #b99ad9;
             }
         }
     }
 
-    .visao-geral .resumos{
-        grid-template-columns: repeat(2, 1fr);
+    .estoque{
+        min-height: 360px;
+
+        h2{
+            min-height: 54px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #444444;
+            font-size: 16px;
+        }
+
+        .tabela-produtos{
+            overflow-x: auto;
+        }
+
+        table{
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        th,
+        td{
+            padding: 12px 10px;
+            border-bottom: 1px solid #444444;
+            white-space: nowrap;
+        }
+
+        th{
+            font-size: 14px;
+        }
+
+        td:last-child{
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        th:last-child{
+            text-align: center;
+        }
+
+        td:first-child{
+            padding-left: 12px;
+        }
+
+        td:first-child strong,
+        td:first-child small{
+            display: block;
+        }
+
+        td:first-child small{
+            margin-top: 4px;
+            color: #888888;
+            font-size: 11px;
+        }
+
+        .status{
+            padding: 5px 14px;
+            border-radius: 14px;
+            background-color: #319c3d;
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+        .acoes{
+            white-space: nowrap;
+
+            button{
+                margin-left: 4px;
+                min-height: 30px;
+                width: 82px;
+                padding: 0 9px;
+                border: 0;
+                border-radius: 5px;
+                background-color: #188c8c;
+                color: #ffffff;
+                font-size: 11px;
+                cursor: pointer;
+
+                &:last-child{
+                    margin-right: 0;
+                    background-color: #b63131;
+                }
+            }
+        }
     }
 }
+
 

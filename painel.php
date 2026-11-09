@@ -18,7 +18,7 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15V9m5 6V5m5 10v-4"/></svg>
                 <h1>Visão geral</h1>
             </a>
-            <a href="#produtos" class="txt">
+            <a href="#" class="txt">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v9"/></svg>
                 <h1>Produtos e estoque</h1>
             </a>
@@ -64,6 +64,71 @@
                     <thead><tr><th>Pedido</th><th>Cliente</th><th>Data</th><th>Total</th></tr></thead>
                     <tbody><tr><td>#1</td><td>Zocca</td><td>04/11/2026</td><td>R$ 274,50</td></tr></tbody>
                 </table>
+            </section>
+        </section>
+
+        <section class="produtos" id="produtos">
+            <div class="titulo">
+                <h1>Produtos e estoque</h1>
+                <p>Cadastre produtos e mantenha preços e quantidade atualizados.</p>
+            </div>
+
+            <section class="cadastro">
+                <h2>Cadastrar produtos</h2>
+                <form action="#produtos" method="post">
+                    <div class="campos">
+                        <div class="campo">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+                        <div class="campo">
+                            <label for="marca">Marca</label>
+                            <input type="text" id="marca" name="marca" required>
+                        </div>
+                        <div class="campo">
+                            <label for="categoria">Categoria</label>
+                            <input type="text" id="categoria" name="categoria" required>
+                        </div>
+                        <div class="campo">
+                            <label for="imagem">URL da imagem</label>
+                            <input type="url" id="imagem" name="imagem">
+                        </div>
+                        <div class="campo">
+                            <label for="preco">Preço (R$)</label>
+                            <input type="number" id="preco" name="preco" min="0" step="0.01" required>
+                        </div>
+                        <div class="campo">
+                            <label for="estoque">Estoque</label>
+                            <input type="number" id="estoque" name="estoque" min="0" step="1" required>
+                        </div>
+                    </div>
+                    <div class="campo descricao">
+                        <label for="descricao">Descrição</label>
+                        <textarea id="descricao" name="descricao" rows="5"></textarea>
+                    </div>
+                    <button type="submit">Salvar produto</button>
+                </form>
+            </section>
+
+            <section class="estoque">
+                <h2>Estoque completo</h2>
+                <div class="tabela-produtos">
+                    <table>
+                        <thead>
+                            <tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th>Status</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Elden Ring</strong><small>Digital</small></td>
+                                <td>RPG • Soulslike</td>
+                                <td>R$ 274,00</td>
+                                <td>27</td>
+                                <td><span class="status">Ativo</span></td>
+                                <td class="acoes"><button type="button">Editar</button><button type="button">Desativar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </section>
     </main>
