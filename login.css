@@ -40,6 +40,9 @@ flex-direction: row;
                 color: #6D6D6D;
             }
             h1{
+                span{
+                    color: #C866DE;
+                }
                 font-size: 70px;
                 width: 600px;
             }
@@ -66,7 +69,7 @@ flex-direction: row;
                color: #636363;
             }
             h4{
-                color: #6D6D6D;
+                color: #C866DE;
             }
         }
         form{

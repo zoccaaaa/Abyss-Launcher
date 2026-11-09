@@ -15,7 +15,7 @@
             <div class="elipses"></div>
             <div class="escrita">
                 <h3>SUA LOJA , DO SEU JEITO</h3>
-                <h1>Bem-vindo de volta.</h1>
+                <h1><span>Bem-vindo</span> de volta.</h1>
                 <p>Acesso sua conta para acompanhar seus pedido e descobrir produtos para o seu dia a dia</p>
             </div>
         </div>
