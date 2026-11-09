@@ -1,6 +1,6 @@
 <header>
     <div class="esquerda">
-      <a href="index.php" class="ativo">Inicio</a>
+      <a href="" class="ativo">Inicio</a>
       <a href="">Catalogo</a>
       <a href="">Sobre nós</a>
     </div>
@@ -16,7 +16,25 @@
     </div>
 
     <div class="direita">
-      <img src="img/PERFIL.png" alt="">
-      <img src="img/logo.png" alt="">
+      <details class="menu-perfil">
+        <summary aria-label="Abrir opções do perfil">
+          <img src="img/PERFIL.png" alt="Foto de perfil">
+        </summary>
+        <div class="opcoes-perfil">
+          <a href="#editar-perfil">Editar perfil</a>
+          <a href="#biblioteca">Biblioteca</a>
+        </div>
+      </details>
+      <img src="img/logo.png" alt="Logo Abyss">
     </div>
 </header>
+
+<script>
+document.addEventListener('click', (evento) => {
+  document.querySelectorAll('.menu-perfil[open]').forEach((menu) => {
+    if (!menu.contains(evento.target) || evento.target.closest('.opcoes-perfil a')) {
+      menu.removeAttribute('open');
+    }
+  });
+});
+</script>
