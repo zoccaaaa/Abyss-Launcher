@@ -1,34 +1,40 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body{
-    font-family: 'poppins', sans-serif; 
+
+body {
+    font-family: 'poppins', sans-serif;
     background-color: black;
     color: white;
 }
-.login{
-display: flex;
-flex-direction: row;
-    .esquerda{
+
+.login {
+    display: flex;
+    flex-direction: row;
+
+    .esquerda {
         border-right: 1px solid #333;
         width: 60%;
-        .logo{
+
+        .logo {
             position: absolute;
             top: 20px;
             left: 20px;
             width: 60px;
             height: 60px;
         }
-        .elipses{
+
+        .elipses {
             background: url('./imagens/elipses.png') no-repeat right center;
             background-size: 100% 100%;
             z-index: 10;
             height: 690px;
             width: 100%;
         }
-        .escrita{
+
+        .escrita {
             z-index: 1;
             display: flex;
             position: absolute;
@@ -36,54 +42,65 @@ flex-direction: row;
             top: 250px;
             flex-direction: column;
             gap: 20px;
-            h3{
+
+            h3 {
                 color: #6D6D6D;
             }
-            h1{
-                span{
+
+            h1 {
+                span {
                     color: #C866DE;
                 }
+
                 font-size: 70px;
                 width: 600px;
             }
-            p{
+
+            p {
                 font-size: 15px;
                 width: 370px;
             }
         }
     }
-    .direita{
+
+    .direita {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 40%;
-        .escritas{
+
+        .escritas {
             display: flex;
             gap: 20px;
-            flex-direction: column ;
+            flex-direction: column;
             width: 80%;
             text-align: left;
             margin-bottom: 50px;
-            p{
-               color: #636363;
+
+            p {
+                color: #636363;
             }
-            h4{
+
+            h4 {
                 color: #C866DE;
             }
         }
-        form{
+
+        form {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 100%;
-            label{
+
+            label {
                 display: flex;
                 justify-content: flex-start;
                 width: 80%;
             }
-            input{
+
+            input {
                 background-color: black;
                 color: white;
                 border: 1px solid white;
@@ -91,24 +108,32 @@ flex-direction: row;
                 margin-bottom: 20px;
                 padding: 20px;
                 height: 50px;
-                width: 80% ;
+                width: 80%;
                 border-radius: 10px;
             }
-            input::placeholder{
+
+            input:focus {
+                background-color: #C866DE;
+            }
+
+            input::placeholder {
                 color: white;
             }
-            p{
+
+            p {
                 display: flex;
                 justify-content: flex-end;
                 width: 80%;
                 font-size: 12px;
                 margin-right: 20px;
-                a{
+
+                a {
                     text-decoration: none;
                     color: red;
                 }
             }
-            button{
+
+            button {
                 display: flex;
                 justify-content: space-between;
                 padding-left: 20px;
@@ -125,4 +150,3 @@ flex-direction: row;
         }
     }
 }
-

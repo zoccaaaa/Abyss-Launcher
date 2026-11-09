@@ -92,6 +92,10 @@ flex-direction: row;
                 width: 80% ;
                 border-radius: 10px;
             }
+            
+            input:focus {
+                background-color: #C866DE;
+            }  
             input::placeholder{
                 color: white;
             }
