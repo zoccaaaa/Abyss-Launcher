@@ -3,6 +3,166 @@
     padding: 0;
 }
 
+.usuarios{
+    padding: 64px 12px 0;
+
+    .titulo{
+        margin-bottom: 38px;
+
+        h1{
+            margin-bottom: 12px;
+            font-size: 28px;
+        }
+
+        p{
+            color: #999999;
+            font-size: 14px;
+        }
+    }
+
+    .contas{
+        min-height: 450px;
+        overflow: hidden;
+        border: 1px solid #555555;
+        border-radius: 12px;
+        background-color: #000000;
+
+        h2{
+            min-height: 54px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #444444;
+            font-size: 16px;
+        }
+    }
+
+    .busca-contas{
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid #444444;
+
+        label{
+            margin: 0 0 10px 7px;
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .campo-busca{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input{
+            height: 34px;
+            flex: 1;
+            min-width: 0;
+            padding: 0 10px;
+            box-sizing: border-box;
+            border: 1px solid #dddddd;
+            border-radius: 7px;
+            background-color: #b5b5b5;
+            color: #111111;
+            font: inherit;
+        }
+
+        button{
+            width: 150px;
+            height: 34px;
+            border: 0;
+            border-radius: 18px;
+            background-color: #ffffff;
+            color: #111111;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+
+            &:hover{
+                background-color: #b99ad9;
+            }
+        }
+    }
+
+    .tabela-usuarios{
+        overflow-x: auto;
+
+        table{
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        th,
+        td{
+            padding: 12px 10px;
+            border-right: 1px solid #444444;
+            border-bottom: 1px solid #444444;
+            white-space: nowrap;
+        }
+
+        th:last-child,
+        td:last-child{
+            border-right: 0;
+        }
+
+        th{
+            font-size: 14px;
+        }
+
+        td:first-child strong,
+        td:first-child small{
+            display: inline-block;
+        }
+
+        td:first-child small{
+            margin-left: 5px;
+            color: #888888;
+            font-size: 11px;
+        }
+
+        .status{
+            padding: 5px 14px;
+            border-radius: 14px;
+            background-color: #319c3d;
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+        button{
+            min-width: 70px;
+            min-height: 30px;
+            padding: 0 10px;
+            border: 0;
+            border-radius: 5px;
+            background-color: #188c8c;
+            color: #ffffff;
+            font-size: 11px;
+            cursor: pointer;
+        }
+    }
+}
+
+@media (max-width: 560px){
+    .usuarios{
+        padding-right: 4px;
+        padding-left: 4px;
+
+        .busca-contas{
+            padding-right: 14px;
+            padding-left: 14px;
+
+            button{
+                width: 100px;
+            }
+        }
+    }
+}
+
 body{
     min-height: 100vh;
     background-color: #191919;

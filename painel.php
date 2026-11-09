@@ -131,6 +131,39 @@
                 </div>
             </section>
         </section>
+
+        <section class="usuarios" id="usuarios">
+            <div class="titulo">
+                <h1>Usuários</h1>
+                <p>Edite os dados, altere o acesso ou desative a conta.</p>
+            </div>
+
+            <section class="contas">
+                <h2>Contas cadastradas</h2>
+                <div class="busca-contas">
+                    <label for="busca-usuario">Buscar por nome ou email</label>
+                    <div class="campo-busca">
+                        <input type="search" id="busca-usuario" name="busca-usuario">
+                        <button type="button">Buscar</button>
+                    </div>
+                </div>
+                <div class="tabela-usuarios">
+                    <table>
+                        <thead>
+                            <tr><th>Conta</th><th>Acesso</th><th>Status</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Carrasqueira</strong></td>
+                                <td>Administrador</td>
+                                <td><span class="status">Ativo</span></td>
+                                <td><button type="button">Editar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
     </main>
 </body>
 </html>
