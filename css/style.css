@@ -1,0 +1,303 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #1c1c1e;
+  color: #ffffff;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+.hero {
+  position: relative;
+  height: 600px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 48px 40px;
+  background:
+    linear-gradient(90deg, #f7ec0a 0px, #f7ec0a 500px, rgba(247, 236, 10, 0) 1100px),
+    url("https://static.wikia.nocookie.net/cyberpunk/images/8/83/Cyberpunk2077-PhantomLiberty-Ultimate_Edition_Keyart.jpg/revision/latest?cb=20240523025743") center / cover no-repeat,
+    linear-gradient(90deg, #f7ec0a 600px, #c8102e 1300px);
+  color: #111111;
+  overflow: hidden;
+  transition: color 0.6s ease;
+}
+
+
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 70%);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+.hero--video {
+  color: #ffffff;
+}
+
+.hero--video .hero__video,
+.hero--video::after {
+  opacity: 1;
+}
+
+.hero--video .hero__preco {
+  color: #ffffff;
+}
+
+
+.hero__logo,
+.hero__info,
+.hero__dots {
+  z-index: 2;
+}
+
+.hero__logo {
+  position: absolute;
+  top: 110px;
+  left: 48px;
+  font-size: 90px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -3px;
+  line-height: 90px;
+}
+
+.hero__info {
+  width: 560px;
+}
+
+.hero__tag {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.hero__desc {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+.hero__preco {
+  font-size: 16px;
+  font-weight: 700;
+  color: #c8102e;
+  margin: 6px 0 14px;
+}
+
+.hero__acoes {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-comprar {
+  background: #ffffff;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-icone {
+  width: 44px;
+  height: 42px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.hero__dots {
+  position: absolute;
+  right: 120px;
+  bottom: 40px;
+  display: flex;
+  gap: 8px;
+}
+
+.hero__dots span {
+  width: 64px;
+  height: 7px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.4s ease;
+}
+
+.hero__dots span.ativo {
+  background: #c8102e;
+}
+
+
+.conteudo {
+  padding: 0 48px 64px;
+}
+
+.divisor {
+  height: 1px;
+  background: #888888;
+  margin: 40px 0 0 420px;
+}
+
+
+.busca {
+  display: flex;
+  gap: 12px;
+  padding-top: 24px;
+}
+
+.busca input {
+  width: 460px;
+  height: 52px;
+  background: #555555;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 18px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.busca input::placeholder {
+  color: #aaaaaa;
+}
+
+.busca button {
+  height: 52px;
+  background: #666666;
+  color: #ffffff;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 22px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+.filtro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 8px 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #3a3a3c;
+  color: #d0d0d2;
+  font: 600 14px "Segoe UI", Arial, sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.chip span {
+  min-width: 24px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #a8a8ab;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.chip:hover {
+  background: #4a4a4d;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.chip.ativo {
+  background: #c8102e;
+  color: #ffffff;
+}
+
+.chip.ativo span {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.chip:focus-visible {
+  outline: 2px solid #f7ec0a;
+  outline-offset: 2px;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px 24px;
+  padding-top: 32px;
+}
+
+.card {
+  background: #454547;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background: #2a2a2c;
+}
+
+.card__corpo {
+  padding: 14px 16px 16px;
+}
+
+.card__nome {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.card__generos {
+  font-size: 13px;
+  color: #9a9a9a;
+  margin: 4px 0 10px;
+}
+
+.card__preco {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.vazio {
+  padding: 26px 0;
+  color: #aaaaaa;
+  font-size: 14px;
+}
