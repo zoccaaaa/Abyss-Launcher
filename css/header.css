@@ -1,0 +1,156 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+padding-top: 15px ;
+padding-bottom: 15px;
+background-color: #000000;
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+  .esquerda{
+    margin-left: 150px;
+    gap: 60px;
+    display: flex;
+    a{
+      position: relative;
+      font-size: 15px;
+      font-weight: 500;
+      color: whitesmoke;
+      text-decoration: none;
+      transition: color 0.25s ease;
+
+      &::after{
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 100%;
+        height: 2px;
+        background-color: #b99ad9;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover{
+        color: #b99ad9;
+      }
+
+      &:hover::after{
+        transform: scaleX(1);
+      }
+    }
+
+    .ativo{
+      text-decoration: underline;
+      text-decoration-color: #b99ad9;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 8px;
+      color: #b99ad9;
+
+      &::after{
+        display: none;
+      }
+    }
+  }
+
+  .meio{
+    position: relative;
+    flex: 1;
+    margin: 0 55px;
+
+    .pesquisa{
+      width: 100%;
+      height: 29px;
+      padding: 0 42px 0 14px;
+      border: none;
+      border-radius: 12px;
+      background-color: white;
+      outline: none;
+    }
+
+    .botao-pesquisa{
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #111;
+      cursor: pointer;
+      transform: translateY(-50%);
+
+      svg{
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+      }
+    }
+  }
+
+  .direita{
+    margin-right: 150px;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    .menu-perfil{
+      position: relative;
+
+      summary{
+        display: block;
+        cursor: pointer;
+        list-style: none;
+
+        &::-webkit-details-marker{display:none;}
+
+        img{
+          display: block;
+          transition: transform .2s ease;
+        }
+
+        &:hover img{transform:scale(1.06);}
+      }
+
+      .opcoes-perfil{
+        position: absolute;
+        z-index: 5;
+        top: calc(100% + 12px);
+        right: 0;
+        width: 170px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #444;
+        border-radius: 12px;
+        background: #252525;
+        box-shadow: 0 8px 20px #0008;
+
+        a{
+          padding: 10px 12px;
+          border-radius: 8px;
+          color: whitesmoke;
+          font-size: 14px;
+          text-decoration: none;
+          transition: color .2s ease, background-color .2s ease;
+
+          &:hover{color:#b99ad9;background:#ffffff12;}
+        }
+      }
+    }
+
+      img{
+        width: 60px;
+      }
+  }
+}
