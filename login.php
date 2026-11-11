@@ -1,3 +1,7 @@
+<?php
+    require "./data/conexao.php";
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -25,12 +29,12 @@
                 <h1>Entrar na conta</h1>
                 <p>Use seu e-mail e sua senha para continuar.</p>
             </div>
-            <form action="">
+            <form method="POST">
                 <label for="email">E-mail</label>
                 <input type="email" placeholder="Digite seu e-mail" required>
                 <label for="password">Senha</label>
                 <input type="password" placeholder="Digite sua senha" required>
-                
+
                 <p>Ainda não tem conta?<a href="/cadastro.php">Cadastre-se</a> </p>
                 <button type="submit">Entrar <img src="./imagens/seta-entrar.png" alt=""></button>
             </form>

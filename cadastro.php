@@ -30,7 +30,7 @@
                 <input type="email" placeholder="Digite seu e-mail" required>
                 <label for="password">Senha</label>
                 <input type="password" placeholder="Digite sua senha" required>
-                <p>Já tem conta?<a href="/login.php">Entre-já</a> </p>
+                <p>Já tem conta?<a href="/login.php">Entre já</a> </p>
                 <button type="submit">Cadastrar <img src="./imagens/seta-entrar.png" alt=""></button>
             </form>
         </div>
