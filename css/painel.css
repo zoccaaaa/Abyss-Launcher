@@ -275,6 +275,65 @@ body{
             flex-direction: column;
             gap: 10px;
 
+            .cabecalho-categoria{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+            }
+
+            .cabecalho-categoria label{
+                margin: 0;
+            }
+
+            .botao-nova-categoria{
+                padding: 3px 9px;
+                border: 1px solid #665477;
+                border-radius: 14px;
+                background: #211b28;
+                color: #e4d2f4;
+                font-size: 11px;
+                cursor: pointer;
+            }
+
+            .botao-nova-categoria:hover{
+                background: #392e45;
+            }
+
+            .nova-categoria{
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .nova-categoria[hidden]{
+                display: none;
+            }
+
+            .nova-categoria input{
+                height: 34px;
+                flex: 1 1 150px;
+                min-width: 0;
+                padding: 0 10px;
+            }
+
+            .nova-categoria button{
+                min-height: 34px;
+                padding: 0 12px;
+                border: 0;
+                border-radius: 18px;
+                background: #56416b;
+                color: white;
+                font-size: 11px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            .nova-categoria .cancelar-categoria{
+                background: #343039;
+            }
+
             label{
                 font-size: 14px;
                 font-weight: 600;

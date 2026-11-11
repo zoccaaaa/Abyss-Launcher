@@ -16,7 +16,8 @@ if (!in_array($selecao, $secoes, true)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel administrativo</title>
+    <title>Abyss | Painel Administrativo</title>
+    <link rel="icon" type="image/png" href="./imagens/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -178,8 +179,11 @@ if (!in_array($selecao, $secoes, true)) {
                             <input type="text" id="marca" name="marca" required>
                         </div>
 
-                        <div class="campo">
-                            <label for="categoria">Categoria</label>
+                        <div class="campo campo-categoria">
+                            <div class="cabecalho-categoria">
+                                <label for="categoria">Categoria</label>
+                                <button class="botao-nova-categoria" type="button" aria-expanded="false" aria-controls="nova-categoria">+ Criar categoria</button>
+                            </div>
                             <select id="categoria" name="categoria" required>
                                 <option value="" selected disabled>Selecione uma categoria</option>
                                 <option value="Ação">Ação</option>
@@ -201,6 +205,11 @@ if (!in_array($selecao, $secoes, true)) {
                                 <option value="Soulslike">Soulslike</option>
                                 <option value="Terror">Terror</option>
                             </select>
+                            <div class="nova-categoria" id="nova-categoria" hidden>
+                                <input type="text" id="nome-nova-categoria" placeholder="Nome da categoria" aria-label="Nome da nova categoria" maxlength="40">
+                                <button class="salvar-categoria" type="button">Adicionar</button>
+                                <button class="cancelar-categoria" type="button">Cancelar</button>
+                            </div>
                         </div>
 
                         <div class="campo">
@@ -462,6 +471,47 @@ if (!in_array($selecao, $secoes, true)) {
                 botaoSelecionado.setAttribute('aria-current', 'page');
             }
         }
+
+        const seletorCategoria = document.querySelector('#categoria');
+        const painelNovaCategoria = document.querySelector('#nova-categoria');
+        const entradaNovaCategoria = document.querySelector('#nome-nova-categoria');
+        const botaoAbrirCategoria = document.querySelector('.botao-nova-categoria');
+
+        botaoAbrirCategoria.addEventListener('click', () => {
+            const aberto = !painelNovaCategoria.hidden;
+            painelNovaCategoria.hidden = aberto;
+            botaoAbrirCategoria.setAttribute('aria-expanded', String(!aberto));
+            if (!aberto) entradaNovaCategoria.focus();
+        });
+
+        document.querySelector('.cancelar-categoria').addEventListener('click', () => {
+            painelNovaCategoria.hidden = true;
+            entradaNovaCategoria.value = '';
+            botaoAbrirCategoria.setAttribute('aria-expanded', 'false');
+        });
+
+        document.querySelector('.salvar-categoria').addEventListener('click', () => {
+            const nomeCategoria = entradaNovaCategoria.value.trim();
+            if (!nomeCategoria) {
+                entradaNovaCategoria.focus();
+                return;
+            }
+
+            const categoriaExistente = [...seletorCategoria.options].find((opcao) =>
+                opcao.value.toLocaleLowerCase('pt-BR') === nomeCategoria.toLocaleLowerCase('pt-BR')
+            );
+
+            if (categoriaExistente) {
+                seletorCategoria.value = categoriaExistente.value;
+            } else {
+                const novaOpcao = new Option(nomeCategoria, nomeCategoria, true, true);
+                seletorCategoria.add(novaOpcao);
+            }
+
+            painelNovaCategoria.hidden = true;
+            entradaNovaCategoria.value = '';
+            botaoAbrirCategoria.setAttribute('aria-expanded', 'false');
+        });
 
         const seletorPeriodo = document.querySelector('#periodo-grafico');
         const barrasVendas = [...document.querySelectorAll('.barra-vendas')];

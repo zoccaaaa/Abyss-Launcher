@@ -1,7 +1,7 @@
 <header>
     <div class="esquerda">
       <img class="logo-abyss" src="./imagens/logo.png" alt="Abyss Launcher">
-      <a href="" class="ativo">Inicio</a>
+      <a href="./index.php" class="<?= basename($_SERVER['PHP_SELF']) === 'index.php' ? 'ativo' : '' ?>">Inicio</a>
       <a href="">Catalogo</a>
       <a href="">Sobre nós</a>
     </div>

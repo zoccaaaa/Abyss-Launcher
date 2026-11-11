@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abyss Laucher</title>
+    <title>Abyss | Início</title>
+    <link rel="icon" type="image/png" href="./imagens/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -152,8 +153,8 @@
         const jogos = {
             vampyr: { banner: './imagens/vampyr banner.jpg', logo: './imagens/vampyr logo.png', alt: 'Vampyr', descricao: 'Em uma Londres tomada pela doença, escolha quem vive e quem morre.', preco: 'R$ 59,99' },
             remothered: { banner: './imagens/Remothered Banner.png', logo: './imagens/remothered nome.png', alt: 'Remothered: Red Nun’s Legacy', descricao: 'Uma mãe. Uma filha desaparecida. Um mistério esperando pra ser desvendado', preco: 'R$ 80,00' },
-            lego: { banner: './imagens/LEGO batman banner.jpg', logo: './imagens/lego batman logo.png', alt: 'LEGO Batman', descricao: 'Vista a capa, proteja Gotham e viva uma aventura cheia de ação.', preco: 'R$ 99,99' },
-            corsair: { banner: './imagens/Corsair banner.jpg', logo: './imagens/Corsair.png', alt: 'Corsair Cove', descricao: 'Explore novos mares e descubra os segredos de Corsair Cove.', preco: 'R$ 49,99' }
+            lego: { banner: './imagens/LEGO batman banner.jpg', logo: './imagens/Logo lego batman.png', alt: 'LEGO Batman', descricao: 'Vista a capa, proteja Gotham e viva uma aventura cheia de ação.', preco: 'R$ 99,99' },
+            corsair: { banner: './imagens/Corsair banner.jpg', logo: './imagens/Corsair Cove logo.png', alt: 'Corsair Cove', descricao: 'Explore novos mares e descubra os segredos de Corsair Cove.', preco: 'R$ 49,99' }
         };
         const principal = document.querySelector('#jogo-principal');
         const botoes = [...document.querySelectorAll('.jogo-opcao')];
