@@ -24,6 +24,7 @@
         <div class="opcoes-perfil">
           <a href="#editar-perfil">Editar perfil</a>
           <a href="#biblioteca">Biblioteca</a>
+          <a href="./carrinho.php">Carrinho</a>
         </div>
       </details>
     </div>

@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    min-height: 100vh;
+    background-color: #191818;
+    color: whitesmoke;
+}
+
+.pagina-carrinho{
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    margin: 40px auto 28px;
+}
+
+.carrinho-vazio{
+    min-height: 490px;
+    box-sizing: border-box;
+    padding: 36px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #383838;
+    border-radius: 8px;
+    background-color: #000;
+    text-align: center;
+}
+
+.mascote-carrinho{
+    display: block;
+    width: min(280px, 60vw);
+    height: auto;
+    margin-bottom: 30px;
+    transform: translateX(-12px);
+}
+
+.carrinho-vazio h1{
+    margin-bottom: 24px;
+    font-size: clamp(18px, 2.5vw, 22px);
+    font-weight: 700;
+    transform: translateY(-24px);
+}
+
+.explorar-catalogo{
+    min-width: 204px;
+    padding: 6px 24px;
+    box-sizing: border-box;
+    border-radius: 16px;
+    background-color: #c557dc;
+    color: #080808;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color .2s ease, transform .2s ease;
+    margin-top: -24px;
+}
+
+.explorar-catalogo:hover{
+    background-color: #d477e7;
+    transform: translateY(-2px);
+}
+
+.explorar-catalogo:focus-visible{
+    outline: 2px solid whitesmoke;
+    outline-offset: 3px;
+}
+
+@media (max-width: 520px){
+    .pagina-carrinho{
+        width: calc(100% - 32px);
+        margin-top: 24px;
+    }
+
+    .carrinho-vazio{
+        min-height: 420px;
+    }
+}
