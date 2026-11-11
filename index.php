@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abyss Laucher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/footer.css">
@@ -15,10 +18,19 @@
     ?>
 
 
-   <div class="banner">
-    <h1>Destaque da semana</h1>
-    <img src="./imagens/Banner.png" alt="Destaque da semana: Phantom Blade Zero">
-   </div>
+   <section class="banner" aria-label="Destaque da semana: Phantom Blade Zero" data-video-banner>
+    <video class="banner-video" muted loop playsinline preload="none" poster="./imagens/Banner.png" aria-hidden="true">
+        <source src="./imagens/Video banner.mp4" type="video/mp4">
+    </video>
+    <div class="banner-conteudo">
+        <img class="banner-logo" src="./imagens/Logotipo Phantom Blade Zero.png" alt="Phantom Blade Zero">
+        <p class="banner-status">DESTAQUE DA SEMANA</p>
+        <div class="acoes">
+            <a class="comprar" href="#">Ver jogo</a>
+            <button type="button" aria-label="Favoritar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v18l-6-4-6 4z"/></svg></button>
+        </div>
+    </div>
+   </section>
 
      <div class="destaques">
         <div class="titulo">
@@ -52,7 +64,6 @@
                 <p class="preco" data-preco>R$ 80,00</p>
                 <div class="acoes">
                     <a class="comprar" href="#">Compre agora</a>
-                    <button type="button" aria-label="Presentear"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18v11H3zM2 6h20v4H2zM12 6v15M12 6c-5 0-7-1-7-3a2 2 0 0 1 2-2c2 0 5 5 5 5Zm0 0c5 0 7-1 7-3a2 2 0 0 0-2-2c-2 0-5 5-5 5Z"/></svg></button>
                     <button type="button" aria-label="Favoritar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v18l-6-4-6 4z"/></svg></button>
                 </div>
             </div>
@@ -172,6 +183,31 @@
         }
         botoes.forEach((botao, indice) => botao.addEventListener('click', () => selecionar(indice)));
         selecionar(atual, true);
+        const banner = document.querySelector('[data-video-banner]');
+        const bannerVideo = banner.querySelector('.banner-video');
+
+        function iniciarVideoBanner() {
+            banner.classList.add('video-ativo');
+            const reproducao = bannerVideo.play();
+            if (reproducao && typeof reproducao.catch === 'function') {
+                reproducao.catch(() => banner.classList.remove('video-ativo'));
+            }
+        }
+
+        function pausarVideoBanner() {
+            bannerVideo.pause();
+            bannerVideo.currentTime = 0;
+            banner.classList.remove('video-ativo');
+        }
+
+        banner.addEventListener('pointerenter', (evento) => {
+            if (evento.pointerType === 'mouse') iniciarVideoBanner();
+        });
+        banner.addEventListener('pointerleave', pausarVideoBanner);
+        banner.addEventListener('focusin', iniciarVideoBanner);
+        banner.addEventListener('focusout', (evento) => {
+            if (!banner.contains(evento.relatedTarget)) pausarVideoBanner();
+        });
         document.querySelectorAll('.favoritar').forEach((botao) => {
             botao.addEventListener('click', () => {
                 const favoritado = botao.getAttribute('aria-pressed') === 'true';

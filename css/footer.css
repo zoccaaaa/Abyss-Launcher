@@ -81,23 +81,16 @@
   }
 
   .pt2{
-    min-height: 58px;
-    padding: 0 2.8%;
+    min-height: 40px;
+    padding: 7px 2.8%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     border-top: 1px solid #777;
-
-    img{
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
-      border: 1px solid whitesmoke;
-      border-radius: 50%;
-    }
 
     p{
       font-size: 12px;
+      text-align: center;
     }
   }
 }

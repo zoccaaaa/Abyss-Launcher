@@ -17,6 +17,9 @@ if (!in_array($selecao, $secoes, true)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel administrativo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/painel.css">
 </head>
@@ -177,7 +180,27 @@ if (!in_array($selecao, $secoes, true)) {
 
                         <div class="campo">
                             <label for="categoria">Categoria</label>
-                            <input type="text" id="categoria" name="categoria" required>
+                            <select id="categoria" name="categoria" required>
+                                <option value="" selected disabled>Selecione uma categoria</option>
+                                <option value="Ação">Ação</option>
+                                <option value="Anime">Anime</option>
+                                <option value="Aventura">Aventura</option>
+                                <option value="Cooperativo">Cooperativo</option>
+                                <option value="Faroeste">Faroeste</option>
+                                <option value="Furtividade">Furtividade</option>
+                                <option value="Hack And Slash">Hack And Slash</option>
+                                <option value="Indie">Indie</option>
+                                <option value="Lego">Lego</option>
+                                <option value="Luta">Luta</option>
+                                <option value="Esporte">Esporte</option>
+                                <option value="Metroidvania">Metroidvania</option>
+                                <option value="Mundo aberto">Mundo aberto</option>
+                                <option value="Plataforma">Plataforma</option>
+                                <option value="Rpg">Rpg</option>
+                                <option value="Sobrevivencia">Sobrevivencia</option>
+                                <option value="Soulslike">Soulslike</option>
+                                <option value="Terror">Terror</option>
+                            </select>
                         </div>
 
                         <div class="campo">
@@ -255,9 +278,14 @@ if (!in_array($selecao, $secoes, true)) {
                 <h2>Contas cadastradas</h2>
 
                 <div class="busca-contas">
-                    <label for="busca-usuario">Buscar por nome ou email</label>
+                    <label for="busca-usuario">Buscar contas</label>
                     <div class="campo-busca">
-                        <input type="search" id="busca-usuario" name="busca-usuario">
+                        <select id="filtro-usuario" name="filtro-usuario" aria-label="Filtrar pesquisa por">
+                            <option value="nome">Nome</option>
+                            <option value="email">Email</option>
+                            <option value="acesso">Acesso</option>
+                        </select>
+                        <input type="search" id="busca-usuario" name="busca-usuario" placeholder="Digite sua pesquisa">
                         <button type="button">Buscar</button>
                     </div>
                 </div>
@@ -266,7 +294,8 @@ if (!in_array($selecao, $secoes, true)) {
                     <table>
                         <thead>
                             <tr>
-                                <th class="coluna-tabela">Conta</th>
+                                <th class="coluna-tabela">Nome</th>
+                                <th class="coluna-tabela">Email</th>
                                 <th class="coluna-tabela">Acesso</th>
                                 <th class="coluna-tabela">Status</th>
                                 <th class="coluna-tabela sem-borda">Ações</th>
@@ -275,6 +304,7 @@ if (!in_array($selecao, $secoes, true)) {
                         <tbody>
                             <tr>
                                 <td class="celula-tabela">Carrasqueira</td>
+                                <td class="celula-tabela">carrasqueira@email.com</td>
                                 <td class="celula-tabela">Administrador</td>
                                 <td class="celula-tabela"><span class="status">Ativo</span></td>
                                 <td class="celula-tabela sem-borda">
@@ -311,7 +341,11 @@ if (!in_array($selecao, $secoes, true)) {
                 </div>
                 <div class="resumo">
                     <h2>Período no gráfico</h2>
-                    <p>12 meses</p>
+                    <select id="periodo-grafico" name="periodo-grafico" aria-label="Período do gráfico">
+                        <option value="1">1 mês</option>
+                        <option value="6">6 meses</option>
+                        <option value="12" selected>12 meses</option>
+                    </select>
                 </div>
             </div>
 
@@ -428,6 +462,54 @@ if (!in_array($selecao, $secoes, true)) {
                 botaoSelecionado.setAttribute('aria-current', 'page');
             }
         }
+
+        const seletorPeriodo = document.querySelector('#periodo-grafico');
+        const barrasVendas = [...document.querySelectorAll('.barra-vendas')];
+        const containerBarrasVendas = document.querySelector('.barras-vendas');
+        const graficoVendas = document.querySelector('.grafico-vendas');
+        const tituloGraficoVendas = graficoVendas.querySelector('h2');
+
+        function atualizarGraficoVendas() {
+            const quantidade = Number(seletorPeriodo.value);
+            containerBarrasVendas.querySelectorAll('.barra-diaria').forEach((barra) => barra.remove());
+
+            if (quantidade === 1) {
+                const diasNoMes = 30;
+                containerBarrasVendas.classList.add('grafico-diario');
+                containerBarrasVendas.style.setProperty('--quantidade-meses', diasNoMes);
+                barrasVendas.forEach((barra) => { barra.hidden = true; });
+
+                for (let dia = 1; dia <= diasNoMes; dia++) {
+                    const barra = document.createElement('div');
+                    const coluna = document.createElement('span');
+                    const rotulo = document.createElement('p');
+                    const altura = 14 + ((dia * 17 + dia * dia * 3) % 82);
+
+                    barra.className = 'barra-vendas barra-diaria';
+                    coluna.style.height = `${altura}px`;
+                    rotulo.textContent = String(dia).padStart(2, '0');
+                    barra.append(coluna, rotulo);
+                    containerBarrasVendas.append(barra);
+                }
+
+                tituloGraficoVendas.textContent = 'Receita diária - Novembro 2026';
+                graficoVendas.setAttribute('aria-label', 'Receita diária durante novembro de 2026');
+                return;
+            }
+
+            containerBarrasVendas.classList.remove('grafico-diario');
+            containerBarrasVendas.style.setProperty('--quantidade-meses', quantidade);
+            barrasVendas.forEach((barra, indice) => {
+                barra.hidden = indice < barrasVendas.length - quantidade;
+            });
+
+            const periodoTexto = `últimos ${quantidade} meses`;
+            tituloGraficoVendas.textContent = `Receita mensal - ${periodoTexto}`;
+            graficoVendas.setAttribute('aria-label', `Receita mensal nos ${periodoTexto}`);
+        }
+
+        seletorPeriodo.addEventListener('change', atualizarGraficoVendas);
+        atualizarGraficoVendas();
     </script>
 
 </body>

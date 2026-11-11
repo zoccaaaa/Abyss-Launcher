@@ -34,7 +34,6 @@
     </div>
 
     <div class="pt2">
-      <img src="./imagens/logo.png" alt="Logo Abyss">
       <p>© 2026. Todos os direitos reservados a Abyss Laucher.</p>
     </div>
 </footer>

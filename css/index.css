@@ -11,12 +11,22 @@ body{
 
 .banner{
     margin:32px 150px 0;
+    position:relative;
+    min-height:500px;
+    overflow:hidden;
     display:flex;
-    flex-direction:column;
+    align-items:flex-end;
+    border:1px solid #49434f;
+    border-radius:16px;
+    background:#101014 url("../imagens/Banner.png") center/cover no-repeat;
+    isolation:isolate;
 }
-.banner h1{margin-bottom:15px;font-size:16px;font-weight:600;}
-.banner img{width:100%;border:1px solid #777;object-fit:cover;transition:transform .25s ease,border-color .25s ease;}
-.banner img:hover{transform:scale(1.015);border:3px solid #9b75bd;}
+.banner-video{position:absolute;z-index:-2;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0;transition:opacity .3s ease;}
+.banner.video-ativo .banner-video{opacity:1;}
+.banner::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.92),rgba(0,0,0,.58) 43%,rgba(0,0,0,.08) 78%),linear-gradient(0deg,rgba(0,0,0,.42),transparent 55%);pointer-events:none;}
+.banner-conteudo{position:relative;z-index:1;width:min(510px,100%);padding:38px 40px;box-sizing:border-box;}
+.banner-logo{display:block;width:min(390px,82%);max-height:150px;object-fit:contain;object-position:left center;margin-bottom:26px;}
+.banner-status{margin-bottom:18px;font-size:11px;font-weight:700;letter-spacing:.1em;color:#e1c9f6;}
 
 .vitrine{
     margin: 46px 150px 60px;
@@ -228,4 +238,137 @@ body{
             }
         }
     }
+}
+
+/* Acabamento visual compartilhado da página inicial */
+.vitrine .jogo-principal,
+.descubra-banner,
+.desconto-jogo img,
+.lancamentos-banner,
+.destaques .iten{
+    border-radius: 12px;
+}
+
+.banner{
+    position: relative;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.banner:hover{
+    border-color: #a987ca;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
+}
+
+.descubra-titulo,
+.descontos-titulo,
+.lancamentos-titulo,
+.destaques .titulo{
+    margin-bottom: 36px;
+}
+
+.descubra-titulo h1,
+.descontos-titulo h1,
+.lancamentos-titulo h1,
+.destaques .titulo h1{
+    font-size: 18px;
+    letter-spacing: .01em;
+}
+
+.descubra-titulo .linha,
+.descontos-titulo .linha,
+.lancamentos-titulo .linha,
+.destaques .titulo .linha{
+    background: linear-gradient(90deg, #80679b, #514b56 55%, transparent);
+}
+
+.destaques .iten,
+.descubra-jogo,
+.lancamento-jogo,
+.desconto-jogo img,
+.descubra-banner,
+.lancamentos-banner,
+.vitrine .jogo-principal{
+    border: 1px solid #49434f;
+    transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, background-color .24s ease;
+}
+
+.destaques .iten{
+    overflow: hidden;
+}
+
+.destaques .iten:hover,
+.descubra-jogo:hover,
+.lancamento-jogo:hover,
+.desconto-jogo:hover img,
+.descubra-banner:hover,
+.lancamentos-banner:hover,
+.vitrine .jogo-principal:hover{
+    border-color: #a987ca;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
+}
+
+.destaques .iten:hover,
+.desconto-jogo:hover{
+    transform: translateY(-3px);
+}
+
+.descubra-jogo,
+.lancamento-jogo{
+    border-color: transparent;
+    border-radius: 12px;
+}
+
+.descubra-jogo::before,
+.lancamento-jogo::before{
+    border-radius: 11px;
+    background: linear-gradient(110deg, rgba(91, 67, 117, .72), rgba(56, 43, 70, .55));
+}
+
+.desconto-jogo img{
+    border-radius: 12px;
+}
+
+.desconto-jogo:hover img{
+    box-sizing: border-box;
+    border-width: 1px;
+}
+
+.descubra-banner,
+.lancamentos-banner{
+    box-sizing: border-box;
+}
+
+.descubra-banner a,
+.lancamentos-banner a,
+.comprar,
+.destaques .final a{
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 9px;
+    font-weight: 600;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, .2);
+}
+
+.descubra-banner a:hover,
+.lancamentos-banner a:hover,
+.comprar:hover,
+.destaques .final a:hover{
+    border-color: #c7a9e5;
+    background: #b99ad9;
+    color: #17131c;
+}
+
+.favoritar{
+    border: 1px solid rgba(255, 255, 255, .14);
+    background: rgba(20, 18, 23, .94);
+}
+
+.jogo-opcao:focus-visible,
+.acoes button:focus-visible,
+.favoritar:focus-visible,
+.descubra-banner a:focus-visible,
+.lancamentos-banner a:focus-visible,
+.comprar:focus-visible,
+.destaques .final a:focus-visible{
+    outline: 2px solid #c6a4e6;
+    outline-offset: 3px;
 }

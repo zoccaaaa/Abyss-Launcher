@@ -1,5 +1,6 @@
 <header>
     <div class="esquerda">
+      <img class="logo-abyss" src="./imagens/logo.png" alt="Abyss Launcher">
       <a href="" class="ativo">Inicio</a>
       <a href="">Catalogo</a>
       <a href="">Sobre nós</a>
@@ -25,7 +26,6 @@
           <a href="#biblioteca">Biblioteca</a>
         </div>
       </details>
-      <img src="./imagens/logo.png" alt="">
     </div>
 </header>
 
