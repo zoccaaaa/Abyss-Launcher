@@ -40,6 +40,32 @@
             <p>TEMPO ONLINE</p>
         </div>
     </div>
+    <div class="cartas-antes">
+        <div class="texto">
+            <h1>Não criamos apenas um launcher</h1>
+        </div>
+        <div class="textinho">
+            <h3>Criamos um ponto de encontro para quem acredita que jogar é mais do que passar o tempo.</h3>
+            <p>É descobrir mundos, formar amizades e colecionar histórias que continuam com você depois que a tela
+                apaga. Por isso, o Nexus coloca a experiência do jogador em primeiro lugar -sempre.</p>
+        </div>
+    </div>
+    <div class="cards">
+        <div class="card">
+            <img src="./imagens/image 43.png" alt="">
+            <h1>Feito por jogadores</h1>
+            <p>Somos uma equipe que joga, escuta e constrói lado a lado com a comunidade.</p>
+        </div>
+        <div class="card2">
+            <h1>Liberdade primeiro</h1>
+            <p>Seus jogos, suas escolhas, seus dados. Sem amarras e sem experiências invasivas</p>
+        </div>
+        <div class="card">
+            <img src="./imagens/Group 43.png" alt="">
+            <h1>Sempre em evolução</h1>
+            <p>Cada atualização torna o Nexus mais rápido, simples e aberto a novas possibilidades.</p>
+        </div>
+    </div>
     <?php include "/footer.php" ?>
 </body>
 
