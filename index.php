@@ -8,7 +8,12 @@ foreach ($jogos as $j) {
         $contagem[$g] = ($contagem[$g] ?? 0) + 1;
     }
 }
-arsort($contagem);
+function semAcento($t) {
+    // usa mbstring se estiver ativa; senão cai para strtolower (sem derrubar o site)
+    $t = function_exists('mb_strtolower') ? mb_strtolower($t, 'UTF-8') : strtolower($t);
+    return strtr($t, ["á"=>"a","à"=>"a","â"=>"a","ã"=>"a","é"=>"e","ê"=>"e","í"=>"i","ó"=>"o","ô"=>"o","õ"=>"o","ú"=>"u","ç"=>"c","Á"=>"a","À"=>"a","Â"=>"a","Ã"=>"a","É"=>"e","Ê"=>"e","Í"=>"i","Ó"=>"o","Ô"=>"o","Õ"=>"o","Ú"=>"u","Ç"=>"c"]);
+}
+uksort($contagem, function ($a, $b) { return strcmp(semAcento($a), semAcento($b)); });
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -55,13 +60,20 @@ arsort($contagem);
     <div class="divisor"></div>
 
     <form class="busca">
-      <input type="text" id="busca" placeholder="Pesquisa jogos no catálogo...">
-      <button type="button">Surpreenda-me</button>
+      <button type="button" id="surpresa">Surpreenda-me</button>
     </form>
+
+    <div class="filtro" id="filtro">
+      <button type="button" class="chip ativo" data-genero="">Todos</button>
+      <?php foreach ($contagem as $genero => $total) { ?>
+        <button type="button" class="chip" data-genero="<?= htmlspecialchars($genero) ?>"><?= htmlspecialchars($genero) ?></button>
+      <?php } ?>
+    </div>
+
    
     <main class="grid">
-      <?php foreach ($jogos as $j) { ?>
-        <article class="card" data-generos="<?= htmlspecialchars(str_replace(" • ", "|", $j["generos"])) ?>">
+      <?php foreach ($jogos as $i => $j) { ?>
+        <article class="card" id="jogo-<?= $i ?>" data-generos="<?= htmlspecialchars(str_replace(" • ", "|", $j["generos"])) ?>">
           <img src="<?= $j["img"] ?>" alt="<?= $j["nome"] ?>">
           <div class="card__corpo">
             <h3 class="card__nome"><?= $j["nome"] ?></h3>
@@ -129,7 +141,7 @@ arsort($contagem);
     }
 
     function filtrar() {
-      var termo = limpar(busca.value.trim());
+      var termo = busca ? limpar(busca.value.trim()) : "";
       var achou = 0;
       cards.forEach(function (c) {
         var nome = limpar(c.querySelector(".card__nome").textContent);
@@ -149,8 +161,17 @@ arsort($contagem);
       });
     });
 
-    busca.addEventListener("input", filtrar);
+    if (busca) busca.addEventListener("input", filtrar);
     document.querySelector(".busca").addEventListener("submit", function (e) { e.preventDefault(); });
+
+    document.getElementById("surpresa").addEventListener("click", function () {
+      var visiveis = Array.prototype.filter.call(cards, function (c) { return !c.hidden; });
+      if (!visiveis.length) return;
+      cards.forEach(function (c) { c.classList.remove("card--sorteado"); });
+      var sorteado = visiveis[Math.floor(Math.random() * visiveis.length)];
+      sorteado.classList.add("card--sorteado");
+      sorteado.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
   })();
 </script>
 

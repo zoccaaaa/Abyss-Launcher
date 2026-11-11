@@ -71,6 +71,10 @@ justify-content: space-between;
       border-radius: 12px;
       background-color: white;
       outline: none;
+
+      &::-webkit-search-cancel-button{
+        display: none;
+      }
     }
 
     .botao-pesquisa{
@@ -95,6 +99,94 @@ justify-content: space-between;
         stroke: currentColor;
         stroke-width: 2;
         stroke-linecap: round;
+      }
+    }
+
+    .resultados{
+      position: absolute;
+      z-index: 20;
+      top: calc(100% + 10px);
+      left: 0;
+      right: 0;
+      padding: 6px;
+      border: 1px solid #444;
+      border-radius: 12px;
+      background: #252525;
+      box-shadow: 0 8px 20px #0008;
+
+      &[hidden]{display: none;}
+
+      .resultado{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        color: whitesmoke;
+        cursor: pointer;
+        transition: background-color .15s ease;
+
+        &:hover, &.selecionado{background: #ffffff12;}
+
+        img{
+          width: 40px;
+          height: 52px;
+          flex: none;
+          object-fit: cover;
+          border-radius: 6px;
+        }
+
+        .info{
+          flex: 1;
+          min-width: 0;
+        }
+
+        .nome{
+          font-size: 14px;
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          mark{
+            background: none;
+            color: #b99ad9;
+          }
+        }
+
+        .meta{
+          margin-top: 2px;
+          font-size: 12px;
+          color: #a8a8a8;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .preco{
+          flex: none;
+          font-size: 13px;
+          color: #b99ad9;
+        }
+      }
+
+      .ver-todos{
+        margin-top: 4px;
+        padding: 10px 0 6px;
+        border-top: 1px solid #3a3a3a;
+        text-align: center;
+        font-size: 13px;
+        color: #b99ad9;
+        cursor: pointer;
+
+        &:hover{text-decoration: underline;}
+      }
+
+      .sem-resultado{
+        padding: 14px;
+        text-align: center;
+        font-size: 13px;
+        color: #a8a8a8;
       }
     }
   }

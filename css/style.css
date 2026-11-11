@@ -201,52 +201,35 @@ body {
 
 .filtro {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-wrap: nowrap;
+  gap: 8px;
   margin-top: 20px;
+  padding-bottom: 12px;
+  overflow-x: auto;
+  scrollbar-color: #c8c8c8 #2a2a2c;
 }
 
 .chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 38px;
-  padding: 0 8px 0 16px;
+  flex: 0 0 auto;
+  height: 36px;
+  padding: 0 16px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 8px;
   background: #3a3a3c;
-  color: #d0d0d2;
-  font: 600 14px "Segoe UI", Arial, sans-serif;
+  color: #e0e0e2;
+  font: 500 14px "Segoe UI", Arial, sans-serif;
+  white-space: nowrap;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
-}
-
-.chip span {
-  min-width: 24px;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #a8a8ab;
-  font-size: 12px;
-  font-weight: 700;
-  text-align: center;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
 .chip:hover {
   background: #4a4a4d;
-  color: #ffffff;
-  transform: translateY(-1px);
 }
 
 .chip.ativo {
-  background: #c8102e;
-  color: #ffffff;
-}
-
-.chip.ativo span {
-  background: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
+  background: #ffffff;
+  color: #111111;
 }
 
 .chip:focus-visible {
@@ -300,4 +283,18 @@ body {
   padding: 26px 0;
   color: #aaaaaa;
   font-size: 14px;
+}
+
+.card {
+  transition: outline-color .3s ease;
+}
+
+.card.destaque {
+  outline: 2px solid #b99ad9;
+  outline-offset: 4px;
+}
+
+.card--sorteado {
+  outline: 3px solid #f7ec0a;
+  outline-offset: 3px;
 }
