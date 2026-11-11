@@ -1,10 +1,15 @@
 <?php
 require __DIR__ . '/data/jogos.php';
+require __DIR__ . '/data/jogo.php';
 require __DIR__ . '/data/biblioteca.php';
 
-// Modo teste: abra index.php?demo=1 para colocar os jogos do catálogo na biblioteca.
+// catálogo usado pela biblioteca (data/jogo.php define $jogo, com cor1/cor2/imagem)
+$catalogo = $jogo;
+unset($jogo);
+
+    
 if (isset($_GET['demo'])) {
-    foreach (array_keys($jogos) as $idDemo) {
+    foreach (array_keys($catalogo) as $idDemo) {
         adicionarNaBiblioteca((int) $idDemo);
     }
     header('Location: index.php');
@@ -15,7 +20,7 @@ $busca  = trim($_GET['busca']  ?? '');
 $filtro = $_GET['filtro'] ?? '';
 $ordem  = $_GET['ordem']  ?? '';
 
-$biblioteca = montarBiblioteca($jogos);
+$biblioteca = montarBiblioteca($catalogo);
 $stats      = estatisticasBiblioteca($biblioteca);
 $exibidos   = filtrarBiblioteca($biblioteca, $busca, $filtro, $ordem);
 
@@ -101,7 +106,11 @@ $tituloPagina = 'Minha Biblioteca';
             <?php foreach ($exibidos as $jogo): ?>
                 <a class="card" href="jogo.php?id=<?= (int) $jogo['id'] ?>"
                    style="--cor1: <?= e($jogo['cor1']) ?>; --cor2: <?= e($jogo['cor2']) ?>;">
-                    <img class="card__capa" src="<?= e($jogo['imagem']) ?>" alt="Capa de <?= e($jogo['nome']) ?>">
+                    <?php if (is_file(__DIR__ . '/' . $jogo['imagem'])): ?>
+                        <img class="card__capa" src="<?= e($jogo['imagem']) ?>" alt="Capa de <?= e($jogo['nome']) ?>">
+                    <?php else: ?>
+                        <div class="card__capa" style="display:grid;place-items:center;padding:8px;text-align:center;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--cor1),var(--cor2))"><?= e($jogo['nome']) ?></div>
+                    <?php endif; ?>
 
                     <div class="card__progresso">
                         <span class="card__conquistas"><?= $jogo['conquistas_obtidas'] ?>/<?= $jogo['conquistas_total'] ?></span>
