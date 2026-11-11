@@ -2,20 +2,33 @@
 // Carrega o catálogo (require devolve o array; include_once não devolve nada se já foi carregado)
 $catalogoBusca = $jogos ?? require __DIR__ . "/../data/jogos.php";
 
-// Monta a lista da busca SEM reutilizar $j / $i, que pertencem ao index.php
+// Monta a lista da busca SEM reutilizar $j / $i, que pertencem ao index.php.
+// Aceita os dois formatos de catálogo: o da biblioteca (nome) e o da loja (titulo/condicoes).
 $itensBusca = [];
 foreach ($catalogoBusca as $slug => $item) {
-    $menorPreco = min(array_column($item["condicoes"], "preco"));
+    $nome = $item["titulo"] ?? $item["nome"] ?? "";
+
+    $preco = "";
+    if (!empty($item["condicoes"]) && is_array($item["condicoes"])) {
+        $menorPreco = min(array_column($item["condicoes"], "preco"));
+        $preco = "A partir de R$ " . number_format($menorPreco, 2, ",", ".");
+    }
+
+    $generos = $item["genero"] ?? "";
+    if (is_array($generos)) {
+        $generos = implode(", ", $generos);
+    }
+
     $itensBusca[] = [
         "id"      => $slug,
-        "nome"    => $item["titulo"],
-        "generos" => $item["genero"],
-        "preco"   => "A partir de R$ " . number_format($menorPreco, 2, ",", "."),
-        "img"     => $item["imagem"],
-        "url"     => "?id=" . urlencode($slug),
+        "nome"    => $nome,
+        "generos" => $generos,
+        "preco"   => $preco,
+        "img"     => $item["imagem"] ?? "",
+        "url"     => "?busca=" . urlencode($nome),
     ];
 }
-unset($slug, $item, $menorPreco, $catalogoBusca);
+unset($slug, $item, $nome, $preco, $generos, $menorPreco, $catalogoBusca);
 ?>
 <header>
     <div class="esquerda">
