@@ -1,22 +1,21 @@
 <?php
-include_once __DIR__ . "/../data/jogos.php";
+// Carrega o catálogo (require devolve o array; include_once não devolve nada se já foi carregado)
+$catalogoBusca = $jogos ?? require __DIR__ . "/../data/jogos.php";
 
-$itensBusca = [[
-    "id"      => "hero",
-    "nome"    => $banner["titulo"],
-    "generos" => "Destaque",
-    "preco"   => $banner["preco"],
-    "img"     => $banner["img"],
-]];
-foreach ($jogos as $i => $j) {
+// Monta a lista da busca SEM reutilizar $j / $i, que pertencem ao index.php
+$itensBusca = [];
+foreach ($catalogoBusca as $slug => $item) {
+    $menorPreco = min(array_column($item["condicoes"], "preco"));
     $itensBusca[] = [
-        "id"      => "jogo-" . $i,
-        "nome"    => $j["nome"],
-        "generos" => $j["generos"],
-        "preco"   => $j["preco"],
-        "img"     => $j["img"],
+        "id"      => $slug,
+        "nome"    => $item["titulo"],
+        "generos" => $item["genero"],
+        "preco"   => "A partir de R$ " . number_format($menorPreco, 2, ",", "."),
+        "img"     => $item["imagem"],
+        "url"     => "?id=" . urlencode($slug),
     ];
 }
+unset($slug, $item, $menorPreco, $catalogoBusca);
 ?>
 <header>
     <div class="esquerda">
@@ -108,27 +107,12 @@ document.addEventListener('click', (evento) => {
 
   function irPara(jogo) {
     fechar();
-    var alvo = document.getElementById(jogo.id);
-    if (!alvo) return;
-    if (alvo.hidden) {
-      var filtro = document.getElementById("busca");
-      if (filtro) { filtro.value = ""; filtro.dispatchEvent(new Event("input")); }
-    }
-    alvo.scrollIntoView({ behavior: "smooth", block: jogo.id === "hero" ? "start" : "center" });
-    if (jogo.id !== "hero") {
-      alvo.classList.add("destaque");
-      setTimeout(function () { alvo.classList.remove("destaque"); }, 1800);
-    }
+    window.location.href = jogo.url;
   }
 
   function verTodos() {
-    var filtro = document.getElementById("busca");
-    var termo  = campo.value.trim();
     fechar();
-    if (!filtro) return;
-    filtro.value = termo;
-    filtro.dispatchEvent(new Event("input"));
-    filtro.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (encontrados.length) irPara(encontrados[0]);
   }
 
   function desenhar() {
