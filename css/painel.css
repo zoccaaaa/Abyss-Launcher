@@ -3,166 +3,6 @@
     padding: 0;
 }
 
-.usuarios{
-    padding: 64px 12px 0;
-
-    .titulo{
-        margin-bottom: 38px;
-
-        h1{
-            margin-bottom: 12px;
-            font-size: 28px;
-        }
-
-        p{
-            color: #999999;
-            font-size: 14px;
-        }
-    }
-
-    .contas{
-        min-height: 450px;
-        overflow: hidden;
-        border: 1px solid #555555;
-        border-radius: 12px;
-        background-color: #000000;
-
-        h2{
-            min-height: 54px;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #444444;
-            font-size: 16px;
-        }
-    }
-
-    .busca-contas{
-        padding: 20px 24px 16px;
-        border-bottom: 1px solid #444444;
-
-        label{
-            margin: 0 0 10px 7px;
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .campo-busca{
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        input{
-            height: 34px;
-            flex: 1;
-            min-width: 0;
-            padding: 0 10px;
-            box-sizing: border-box;
-            border: 1px solid #dddddd;
-            border-radius: 7px;
-            background-color: #b5b5b5;
-            color: #111111;
-            font: inherit;
-        }
-
-        button{
-            width: 150px;
-            height: 34px;
-            border: 0;
-            border-radius: 18px;
-            background-color: #ffffff;
-            color: #111111;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-
-            &:hover{
-                background-color: #b99ad9;
-            }
-        }
-    }
-
-    .tabela-usuarios{
-        overflow-x: auto;
-
-        table{
-            width: 100%;
-            min-width: 600px;
-            border-collapse: collapse;
-            table-layout: fixed;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        th,
-        td{
-            padding: 12px 10px;
-            border-right: 1px solid #444444;
-            border-bottom: 1px solid #444444;
-            white-space: nowrap;
-        }
-
-        th:last-child,
-        td:last-child{
-            border-right: 0;
-        }
-
-        th{
-            font-size: 14px;
-        }
-
-        td:first-child strong,
-        td:first-child small{
-            display: inline-block;
-        }
-
-        td:first-child small{
-            margin-left: 5px;
-            color: #888888;
-            font-size: 11px;
-        }
-
-        .status{
-            padding: 5px 14px;
-            border-radius: 14px;
-            background-color: #319c3d;
-            color: #ffffff;
-            font-size: 12px;
-        }
-
-        button{
-            min-width: 70px;
-            min-height: 30px;
-            padding: 0 10px;
-            border: 0;
-            border-radius: 5px;
-            background-color: #188c8c;
-            color: #ffffff;
-            font-size: 11px;
-            cursor: pointer;
-        }
-    }
-}
-
-@media (max-width: 560px){
-    .usuarios{
-        padding-right: 4px;
-        padding-left: 4px;
-
-        .busca-contas{
-            padding-right: 14px;
-            padding-left: 14px;
-
-            button{
-                width: 100px;
-            }
-        }
-    }
-}
-
 body{
     min-height: 100vh;
     background-color: #191919;
@@ -187,6 +27,8 @@ body{
     .txt{
         min-height: 32px;
         padding: 0 11px;
+        background: transparent;
+        border: 0;
         border-radius: 18px;
         display: flex;
         align-items: center;
@@ -224,6 +66,7 @@ body{
     }
 
     .ativo{
+        border: 1px solid #b99ad9;
         background-color: #b99ad9;
     }
 
@@ -358,18 +201,14 @@ body{
             text-align: left;
         }
 
-        th,
-        td{
+        .coluna-tabela,
+        .celula-tabela{
             padding: 12px 16px;
             border-bottom: 1px solid #444444;
         }
 
-        th{
+        .coluna-tabela{
             font-size: 14px;
-        }
-
-        td:first-child{
-            padding-left: 28px;
         }
     }
 }
@@ -503,39 +342,40 @@ body{
             text-align: center;
         }
 
-        th,
-        td{
+        .coluna-tabela,
+        .celula-tabela{
             padding: 12px 10px;
             border-bottom: 1px solid #444444;
             white-space: nowrap;
         }
 
-        th{
+        .coluna-tabela{
             font-size: 14px;
         }
 
-        td:last-child{
+        .acoes{
             text-align: right;
             padding-right: 10px;
         }
 
-        th:last-child{
-            text-align: center;
-        }
-
-        td:first-child{
+        .produto-info{
             padding-left: 12px;
+            text-align: left;
         }
 
-        td:first-child strong,
-        td:first-child small{
+        .produto-nome,
+        .produto-tipo{
             display: block;
         }
 
-        td:first-child small{
+        .produto-tipo{
             margin-top: 4px;
             color: #888888;
             font-size: 11px;
+        }
+
+        .coluna-acao{
+            text-align: center;
         }
 
         .status{
@@ -561,7 +401,7 @@ body{
                 font-size: 11px;
                 cursor: pointer;
 
-                &:last-child{
+                &.botao-desativar{
                     margin-right: 0;
                     background-color: #b63131;
                 }
@@ -570,4 +410,331 @@ body{
     }
 }
 
+.usuarios{
+    padding: 64px 12px 0;
 
+    .titulo{
+        margin-bottom: 38px;
+
+        h1{
+            margin-bottom: 12px;
+            font-size: 28px;
+        }
+
+        p{
+            color: #999999;
+            font-size: 14px;
+        }
+    }
+
+    .contas{
+        min-height: 450px;
+        overflow: hidden;
+        border: 1px solid #555555;
+        border-radius: 12px;
+        background-color: #000000;
+
+        h2{
+            min-height: 54px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #444444;
+            font-size: 16px;
+        }
+    }
+
+    .busca-contas{
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid #444444;
+
+        label{
+            margin: 0 0 10px 7px;
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .campo-busca{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input{
+            height: 34px;
+            flex: 1;
+            min-width: 0;
+            padding: 0 10px;
+            box-sizing: border-box;
+            border: 1px solid #dddddd;
+            border-radius: 7px;
+            background-color: #b5b5b5;
+            color: #111111;
+            font: inherit;
+        }
+
+        button{
+            width: 150px;
+            height: 34px;
+            border: 0;
+            border-radius: 18px;
+            background-color: #ffffff;
+            color: #111111;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+
+            &:hover{
+                background-color: #b99ad9;
+            }
+        }
+    }
+
+    .tabela-usuarios{
+        overflow-x: auto;
+
+        table{
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .coluna-tabela,
+        .celula-tabela{
+            padding: 12px 10px;
+            border-right: 1px solid #444444;
+            border-bottom: 1px solid #444444;
+            white-space: nowrap;
+        }
+
+        .sem-borda{
+            border-right: 0;
+        }
+
+        .coluna-tabela{
+            font-size: 14px;
+        }
+
+        .status{
+            padding: 5px 14px;
+            border-radius: 14px;
+            background-color: #319c3d;
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+        button{
+            min-width: 70px;
+            min-height: 30px;
+            padding: 0 10px;
+            border: 0;
+            border-radius: 5px;
+            background-color: #188c8c;
+            color: #ffffff;
+            font-size: 11px;
+            cursor: pointer;
+        }
+    }
+}
+
+.vendas{
+    padding: 64px 12px 0;
+
+    .titulo{
+        margin-bottom: 44px;
+
+        h1{
+            margin-bottom: 12px;
+            font-size: 28px;
+        }
+
+        p{
+            color: #999999;
+            font-size: 14px;
+        }
+    }
+
+    .resumos{
+        margin-bottom: 64px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .resumo{
+        min-height: 66px;
+        padding: 12px 14px;
+        box-sizing: border-box;
+        border: 1px solid #555555;
+        border-radius: 11px;
+        background-color: #000000;
+
+        h2{
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        p{
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+
+    .grafico-vendas,
+    .historico-vendas{
+        overflow: hidden;
+        border: 1px solid #555555;
+        border-radius: 12px;
+        background-color: #000000;
+    }
+
+    .grafico-vendas{
+        margin-bottom: 64px;
+
+        h2{
+            min-height: 58px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #444444;
+            font-size: 14px;
+        }
+    }
+
+    .barras-vendas{
+        height: 210px;
+        padding: 24px 22px 18px;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        align-items: end;
+        gap: 12px;
+    }
+
+    .barra-vendas{
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+
+        span{
+            width: 100%;
+            max-width: 36px;
+            display: block;
+            background-color: #b99ad9;
+        }
+
+        p{
+            color: #b99ad9;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+    }
+
+    .historico-vendas{
+        min-height: 420px;
+
+        h2{
+            min-height: 58px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #444444;
+            font-size: 16px;
+        }
+    }
+
+    .tabela-vendas{
+        overflow-x: auto;
+
+        table{
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .coluna-tabela,
+        .celula-tabela{
+            padding: 12px 10px;
+            border-bottom: 1px solid #444444;
+            white-space: nowrap;
+        }
+
+        .coluna-tabela{
+            font-size: 14px;
+        }
+
+        .concluido,
+        .cancelado{
+            padding: 4px 13px;
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 11px;
+        }
+
+        .concluido{
+            background-color: #319c3d;
+        }
+
+        .cancelado{
+            background-color: #b63131;
+        }
+    }
+}
+
+@media (max-width: 560px){
+    .comeco{
+        padding: 7px 4px;
+        gap: 2px;
+
+        .txt{
+            padding: 0 5px;
+            gap: 4px;
+            
+
+            h1{
+                font-size: 10px;
+            }
+        }
+    }
+
+    .visao-geral .resumos,
+    .vendas .resumos{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .produtos .campos{
+        grid-template-columns: 1fr;
+        column-gap: 0;
+    }
+
+    .usuarios .busca-contas{
+        padding-right: 14px;
+        padding-left: 14px;
+
+        button{
+            width: 100px;
+        }
+    }
+
+    .vendas .barras-vendas{
+        padding-right: 8px;
+        padding-left: 8px;
+        gap: 4px;
+    }
+
+    .vendas .barra-vendas p{
+        font-size: 9px;
+    }
+}
