@@ -43,12 +43,11 @@
     <div class="cartas-antes">
         <div class="texto">
             <h1>Não criamos apenas um launcher</h1>
-        </div>
-        <div class="textinho">
             <h3>Criamos um ponto de encontro para quem acredita que jogar é mais do que passar o tempo.</h3>
             <p>É descobrir mundos, formar amizades e colecionar histórias que continuam com você depois que a tela
                 apaga. Por isso, o Nexus coloca a experiência do jogador em primeiro lugar -sempre.</p>
         </div>
+        <img src="./imagens/jogos.png" alt="">
     </div>
     <div class="cards">
         <div class="card">
@@ -60,8 +59,8 @@
             <h1>Liberdade primeiro</h1>
             <p>Seus jogos, suas escolhas, seus dados. Sem amarras e sem experiências invasivas</p>
         </div>
-        <div class="card">
-            <img src="./imagens/Group 43.png" alt="">
+        <div class="card, card3">
+            <img src="./imagens/estrela (1).png" alt="">
             <h1>Sempre em evolução</h1>
             <p>Cada atualização torna o Nexus mais rápido, simples e aberto a novas possibilidades.</p>
         </div>

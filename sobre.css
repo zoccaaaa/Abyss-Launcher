@@ -7,6 +7,7 @@
 body {
     background-color: #191818;
     color: white;
+    font-family: 'poppins', sans-serif;
 }
 
 .hero {
@@ -19,7 +20,7 @@ body {
     .texto {
         h1 {
             font-size: 60px;
-            width: 350px;
+            width: 40 0px;
         }
 
         p {
@@ -89,52 +90,71 @@ body {
     justify-content: space-around;
     margin-top: 50px;
 
-    .texto {
-        h1 {
-            color: #C866DE;
-            font-size: 60px;
-            width: 500px;
-        }
+    img {
+        width: 40%;
+        display: flex;
+        height: 300px;
+        justify-content: flex-end;
+        border-radius: 20px;
     }
 
-    .textinho {
+    .texto {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+
+        h1 {
+            color: #C866DE;
+            font-size: 50px;
+            width: 500px;
+        }
+
         h3 {
             font-size: 30px;
-            width: 400px;
+            width: 600px;
         }
 
         p {
             color: #8F8F8F;
-            width: 400px;
+            width: 700px;
         }
     }
 }
 
 .cards {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 50px;
     margin-top: 50px;
 
     .card,
-    .card2 {
+    .card2,
+    .card3 {
         position: relative;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
+        align-items: center;
+        justify-content: center;
         height: 300px;
         width: 400px;
         border-radius: 20px;
         padding: 24px;
+        text-align: center;
     }
 
     .card {
-        background-color: #D9D9D9;
-        color: black;
+        background-image: url('./imagens/hollow%20knight.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 300px;
+        width: 400px;
+        color: white;
 
         img {
             position: absolute;
             top: 20px;
-            right: 20px;
+            left: 20px;
             max-width: 120px;
             max-height: 120px;
             object-fit: contain;
@@ -146,8 +166,37 @@ body {
     }
 
     .card2 {
-        background-color: #C866DE;
+        background: url('imagens/Devil\ May\ Cry\ 5.jpg');
+         background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
         border-radius: 20px;
         color: white;
     }
+
+    .card3 {
+        background: url('imagens/sekiro.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 300px;
+        width: 400px;
+        color: white;
+
+        img {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            max-width: 120px;
+            max-height: 120px;
+            object-fit: contain;
+            height: 50px;
+            width: 50px;
+        }
+
+        p {
+            width: 100%;
+        }
+    }
+
 }
