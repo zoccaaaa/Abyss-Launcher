@@ -48,6 +48,8 @@ body{
 .acoes button:hover,.comprar:hover{transform:scale(1.08);background:#9276ae;color:#fff;}
 .comprar{min-width:132px;padding:0 16px;background:#fff;color:#111;font-size:12px;}
 .acoes button svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.acoes .favorito-vitrine[aria-pressed="true"]{background:#fff;color:#9b75bd;}
+.acoes .favorito-vitrine[aria-pressed="true"] svg{fill:currentColor;}
 .lista-jogos{display:flex;flex-direction:column;gap:38px;}
 .jogo-opcao{--progresso:0%;position:relative;overflow:hidden;width:100%;min-height:80px;padding:10px 12px;display:flex;align-items:center;gap:12px;text-align:left;border:0;border-radius:24px;color:#eee;background:#303030;cursor:pointer;font:500 14px 'poppins',sans-serif;}
 .jogo-opcao::before{content:"";position:absolute;inset:0;width:var(--progresso);background:#9276ae;opacity:.42;transition:width .2s linear;}
@@ -348,10 +350,15 @@ body{
     box-shadow: 0 5px 16px rgba(0, 0, 0, .2);
 }
 
+.destaques .final a{
+    transition: transform .2s ease, border-color .2s ease, background-color .2s ease, color .2s ease;
+}
+
 .descubra-banner a:hover,
 .lancamentos-banner a:hover,
 .comprar:hover,
 .destaques .final a:hover{
+    transform: scale(1.07);
     border-color: #c7a9e5;
     background: #b99ad9;
     color: #17131c;

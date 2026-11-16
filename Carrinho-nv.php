@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho | Abyss</title>
+    <link rel="icon" type="image/png" href="./imagens/logo.png">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/carrinho-nv.css">
 </head>

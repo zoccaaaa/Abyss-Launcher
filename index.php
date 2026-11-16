@@ -47,7 +47,7 @@
                     <p>Esportes</p>
                     <div class="final">
                         <h3>R$ 349,99</h3>
-                        <a href="#">Ver jogo <span>›</span></a>
+                        <a href="#">Ver jogo <span>&rsaquo;</span></a>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                 <p class="preco" data-preco>R$ 80,00</p>
                 <div class="acoes">
                     <a class="comprar" href="#">Compre agora</a>
-                    <button type="button" aria-label="Favoritar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v18l-6-4-6 4z"/></svg></button>
+                    <button class="favorito-vitrine" type="button" aria-label="Favoritar" aria-pressed="false" data-favoritar-vitrine><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button>
                 </div>
             </div>
         </article>
@@ -156,7 +156,9 @@
             lego: { banner: './imagens/LEGO batman banner.jpg', logo: './imagens/Logo lego batman.png', alt: 'LEGO Batman', descricao: 'Vista a capa, proteja Gotham e viva uma aventura cheia de ação.', preco: 'R$ 99,99' },
             corsair: { banner: './imagens/Corsair banner.jpg', logo: './imagens/Corsair Cove logo.png', alt: 'Corsair Cove', descricao: 'Explore novos mares e descubra os segredos de Corsair Cove.', preco: 'R$ 49,99' }
         };
+        const favoritosVitrine = Object.fromEntries(Object.keys(jogos).map((id) => [id, false]));
         const principal = document.querySelector('#jogo-principal');
+        const favoritoPrincipal = principal.querySelector('[data-favoritar-vitrine]');
         const botoes = [...document.querySelectorAll('.jogo-opcao')];
         let atual = 1;
         let timer;
@@ -164,6 +166,9 @@
             atual = indice;
             const botao = botoes[indice];
             const jogo = jogos[botao.dataset.jogo];
+            favoritoPrincipal.dataset.jogo = botao.dataset.jogo;
+            favoritoPrincipal.setAttribute('aria-pressed', favoritosVitrine[botao.dataset.jogo] ? 'true' : 'false');
+            favoritoPrincipal.setAttribute('aria-label', favoritosVitrine[botao.dataset.jogo] ? 'Remover dos favoritos' : 'Favoritar');
             principal.style.backgroundImage = `linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,.28) 58%, rgba(0,0,0,.05)), url("${jogo.banner}")`;
             principal.querySelector('[data-logo]').src = jogo.logo;
             principal.querySelector('[data-logo]').alt = jogo.alt;
@@ -183,6 +188,13 @@
             }, 200);
         }
         botoes.forEach((botao, indice) => botao.addEventListener('click', () => selecionar(indice)));
+        favoritoPrincipal.addEventListener('click', () => {
+            const jogoId = favoritoPrincipal.dataset.jogo;
+            favoritosVitrine[jogoId] = !favoritosVitrine[jogoId];
+            const favoritado = favoritosVitrine[jogoId];
+            favoritoPrincipal.setAttribute('aria-pressed', favoritado ? 'true' : 'false');
+            favoritoPrincipal.setAttribute('aria-label', favoritado ? 'Remover dos favoritos' : 'Favoritar');
+        });
         selecionar(atual, true);
         const banner = document.querySelector('[data-video-banner]');
         const bannerVideo = banner.querySelector('.banner-video');
