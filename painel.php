@@ -377,8 +377,10 @@ if (!in_array($selecao, $secoes, true)) {
                             <option value="admin">Administrador</option>
                         </select>
                         <label class="campo-ativo"><input type="checkbox" name="ativo" id="editar-ativo-usuario" value="1"> Conta ativa</label>
-                        <label for="editar-justificativa">Justificativa para desativar</label>
-                        <textarea name="justificativa" id="editar-justificativa" rows="3" maxlength="1000"></textarea>
+                        <div class="campo-justificativa">
+                            <label for="editar-justificativa">Justificativa para desativar</label>
+                            <textarea name="justificativa" id="editar-justificativa" rows="3" maxlength="1000"></textarea>
+                        </div>
                         <div class="acoes-modal">
                             <button type="button" class="cancelar-edicao">Cancelar</button>
                             <button type="submit">Salvar alterações</button>
@@ -514,6 +516,7 @@ if (!in_array($selecao, $secoes, true)) {
         const campoId = document.querySelector('#editar-id-usuario');
         const campoNome = document.querySelector('#editar-nome-usuario');
         const campoEmail = document.querySelector('#editar-email-usuario');
+        const grupoJustificativa = document.querySelector('.campo-justificativa');
 
         document.querySelectorAll('.editar-usuario').forEach((botao) => {
             botao.addEventListener('click', () => {
@@ -524,12 +527,14 @@ if (!in_array($selecao, $secoes, true)) {
                 campoAtivo.checked = botao.dataset.ativo === '1';
                 campoJustificativa.value = botao.dataset.justificativa;
                 campoJustificativa.required = !campoAtivo.checked;
+                grupoJustificativa.hidden = campoAtivo.checked;
                 modalUsuario.showModal();
             });
         });
 
         campoAtivo.addEventListener('change', () => {
             campoJustificativa.required = !campoAtivo.checked;
+            grupoJustificativa.hidden = campoAtivo.checked;
         });
         document.querySelector('.cancelar-edicao').addEventListener('click', () => modalUsuario.close());
 

@@ -1051,15 +1051,21 @@ body{
 .usuarios .tabela-usuarios .status.status-inativo{background-color:#b63131;}
 .usuarios .justificativa-usuario{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .feedback-usuarios{margin:14px 24px;color:#d7b8f4;}
-.modal-usuario{width:min(92vw,540px);max-height:90vh;margin:auto;padding:0;overflow:auto;border:1px solid #62536f;border-radius:14px;background:#17131c;color:#fff;}
+.modal-usuario{width:min(92vw,500px);max-height:90vh;margin:auto;padding:0;overflow:auto;border:1px solid #62536f;border-radius:16px;background:#17131c;color:#fff;box-shadow:0 24px 80px rgba(0,0,0,.5);}
 .modal-usuario::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px);}
-.form-editar-usuario{display:grid;gap:10px;padding:24px;}
-.form-editar-usuario h2{margin:0 0 8px;}
-.form-editar-usuario label{color:#d8d0df;font-size:13px;}
-.form-editar-usuario input:not([type="checkbox"]),.form-editar-usuario select,.form-editar-usuario textarea{width:100%;min-height:40px;padding:9px 11px;border:1px solid #62536f;border-radius:7px;background:#0b0a0d;color:#fff;font:inherit;}
-.form-editar-usuario .campo-ativo{display:flex;align-items:center;gap:9px;margin:5px 0;}
-.form-editar-usuario input[type="checkbox"]{width:17px;height:17px;accent-color:#a77bc8;}
-.acoes-modal{display:flex;justify-content:flex-end;gap:10px;margin-top:10px;}
-.acoes-modal button{min-height:38px;padding:0 15px;border:0;border-radius:8px;background:#765391;color:#fff;font:inherit;cursor:pointer;}
+.form-editar-usuario{display:grid;gap:7px;padding:26px;}
+.modal-usuario .form-editar-usuario h2{min-height:0;margin:0 0 8px;padding:0;border:0;background:none;font-size:22px;line-height:1.3;}
+.form-editar-usuario label{color:#d8d0df;font-size:13px;font-weight:600;}
+.form-editar-usuario input:not([type="checkbox"]),.form-editar-usuario select,.form-editar-usuario textarea{box-sizing:border-box;width:100%;min-height:44px;padding:9px 12px;border:1px solid #51465b;border-radius:8px;background:#0b0a0d;color:#fff;font:14px 'Poppins',sans-serif;}
+.form-editar-usuario input:not([type="checkbox"]):focus,.form-editar-usuario select:focus,.form-editar-usuario textarea:focus{border-color:#b99ad9;outline:2px solid rgba(185,154,217,.18);}
+.form-editar-usuario .campo-ativo{display:flex;align-items:center;gap:9px;margin:8px 0 4px;}
+.form-editar-usuario input[type="checkbox"]{width:17px;height:17px;margin:0;accent-color:#a77bc8;}
+.form-editar-usuario .campo-justificativa{display:grid;gap:7px;}
+.form-editar-usuario .campo-justificativa[hidden]{display:none;}
+.form-editar-usuario textarea{min-height:92px;resize:vertical;}
+.acoes-modal{display:flex;justify-content:flex-end;gap:10px;margin-top:12px;padding-top:15px;border-top:1px solid #332c3a;}
+.acoes-modal button{min-height:40px;padding:0 16px;border:0;border-radius:8px;background:#765391;color:#fff;font:600 13px 'Poppins',sans-serif;cursor:pointer;transition:background .2s,transform .2s;}
+.acoes-modal button:hover{transform:translateY(-1px);background:#8d69a8;}
 .acoes-modal .cancelar-edicao{background:#39343f;}
+.acoes-modal .cancelar-edicao:hover{background:#4a4451;}
 .estado-vazio{color:#999;text-align:center;}
