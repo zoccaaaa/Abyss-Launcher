@@ -1,3 +1,4 @@
+<?php include "/login.php"?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -24,11 +25,11 @@
     </div>
     <div class="informacoes">
         <div class="informacao">
-            <h1 id="n1">2,4M</h1>
+            <h1 id="n1">30</h1>
             <p>JOGOS NA BIBLIOTECA</p>
         </div>
         <div class="informacao">
-            <h1 id="n2">12K+</h1>
+            <h1 id="n2">1200</h1>
             <p>JOGADORES CONECTADOS</p>
         </div>
         <div class="informacao">
@@ -51,21 +52,33 @@
     </div>
     <div class="cards">
         <div class="card">
-            <img class="logo" src="./imagens/image 24.png" alt="">
-            <img src="./imagens/image 43.png" alt="">
-            <h1>Feito por jogadores</h1>
-            <p>Somos uma equipe que joga, escuta e constrói lado a lado com a comunidade.</p>
+            <div class="frente">
+                <img class="logo" src="./imagens/image 24.png" alt="">
+            </div>
+            <div class="tras">
+                <img src="./imagens/image 43.png" alt="">
+                <h1>Feito por jogadores</h1>
+                <p>Somos uma equipe que joga, escuta e constrói lado a lado com a comunidade.</p>
+            </div>
         </div>
         <div class="card2">
-            <img class="logo" src="./imagens/image 24.png" alt="">
-            <h1>Liberdade primeiro</h1>
-            <p>Seus jogos, suas escolhas, seus dados. Sem amarras e sem experiências invasivas</p>
+            <div class="frente">
+                <img class="logo" src="./imagens/image 24.png" alt="">
+            </div>
+            <div class="tras">
+                <h1>Liberdade primeiro</h1>
+                <p>Seus jogos, suas escolhas, seus dados. Sem amarras e sem experiências invasivas</p>
+            </div>
         </div>
         <div class="card, card3">
-            <img class="logo" src="./imagens/image 24.png" alt="">
-            <img src="./imagens/estrela (1).png" alt="">
-            <h1>Sempre em evolução</h1>
-            <p>Cada atualização torna o Nexus mais rápido, simples e aberto a novas possibilidades.</p>
+            <div class="frente">
+                <img class="logo" src="./imagens/image 24.png" alt="">
+            </div>
+            <div class="tras">
+                </div>
+                <img src="./imagens/estrela (1).png" alt="">
+                <h1>Sempre em evolução</h1>
+                <p>Cada atualização torna o Nexus mais rápido, simples e aberto a novas possibilidades.</p>
         </div>
     </div>
     <?php include "/footer.php" ?>

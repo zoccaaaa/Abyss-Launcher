@@ -1,4 +1,4 @@
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -126,18 +126,6 @@ body {
     justify-content: center;
     gap: 50px;
     margin-top: 50px;
-    .logo{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        img{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-    }
-    
     .card,
     .card2,
     .card3 {
@@ -151,6 +139,16 @@ body {
         border-radius: 20px;
         padding: 24px;
         text-align: center;
+        .frente{
+            .logo{
+                img{
+                    width: 100%;
+                }
+            }
+        }
+        .tras{
+
+        }
     }
     .card {
         background-image: url('./imagens/hollow%20knight.jpg');
@@ -209,4 +207,190 @@ body {
         }
     }
 
+}
+/* Cards: exibem a logo centralizada atÃ© o usuÃ¡rio passar o mouse. */
+/* Cada card centraliza seu conteúdo dentro de uma área de tamanho definido. */
+.cards > div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 300px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+    overflow: hidden;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Define a imagem de fundo do terceiro card pela sua posição no HTML. */
+.cards > div:nth-child(3) {
+    background-image: url('./imagens/sekiro.jpg');
+}
+
+/* A frente cobre o card e mantém a logo centralizada. */
+.cards > div .frente {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.35);
+    opacity: 1;
+    visibility: visible;
+    transition-property: opacity, visibility;
+    transition-duration: 250ms;
+    transition-timing-function: ease;
+}
+
+/* Remove posicionamento antigo e limita a logo ao centro do card. */
+.cards > div .frente img.logo {
+    position: static;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    display: block;
+    width: 100px;
+    height: 100px;
+    max-width: 40%;
+    max-height: 40%;
+    object-fit: contain;
+}
+
+/* A parte de trás preenche o card e começa invisível. */
+.cards > div .tras {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding-top: 28px;
+    padding-right: 28px;
+    padding-bottom: 28px;
+    padding-left: 28px;
+    background-color: rgba(0, 0, 0, 0.78);
+    opacity: 0;
+    visibility: hidden;
+    transition-property: opacity, visibility;
+    transition-duration: 250ms;
+    transition-timing-function: ease;
+}
+
+/* Define o tamanho da imagem decorativa exibida junto ao texto. */
+.cards > div .tras img {
+    position: static;
+    width: 72px;
+    height: 72px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Usa toda a largura interna disponível para título e descrição. */
+.cards > div .tras h1,
+.cards > div .tras p {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+/* Esconde a frente quando o ponteiro está sobre o card ou ele recebe foco. */
+.cards > div:hover .frente,
+.cards > div:focus-within .frente {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Mostra o conteúdo de trás durante hover ou foco. */
+.cards > div:hover .tras,
+.cards > div:focus-within .tras {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* No terceiro card, a imagem, o título e o texto estão fora de .tras no HTML. */
+.cards > div:nth-child(3) > img:not(.logo),
+.cards > div:nth-child(3) > h1,
+.cards > div:nth-child(3) > p {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition-property: opacity, visibility;
+    transition-duration: 250ms;
+    transition-timing-function: ease;
+}
+
+/* Ajusta dimensões e enquadramento da imagem decorativa do terceiro card. */
+.cards > div:nth-child(3) > img:not(.logo) {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+}
+
+/* Expande título e descrição do terceiro card para a largura disponível. */
+.cards > div:nth-child(3) > h1,
+.cards > div:nth-child(3) > p {
+    width: 100%;
+}
+
+/* Revela os elementos avulsos do terceiro card durante hover ou foco. */
+.cards > div:nth-child(3):hover > img:not(.logo),
+.cards > div:nth-child(3):hover > h1,
+.cards > div:nth-child(3):hover > p,
+.cards > div:nth-child(3):focus-within > img:not(.logo),
+.cards > div:nth-child(3):focus-within > h1,
+.cards > div:nth-child(3):focus-within > p {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Também esconde a logo do terceiro card enquanto as informações aparecem. */
+.cards > div:nth-child(3):hover .frente,
+.cards > div:nth-child(3):focus-within .frente {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Posiciona apenas a imagem 43 no canto superior esquerdo do primeiro card. */
+.cards > div:first-child .tras img {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+/* Posiciona apenas a estrela no canto superior esquerdo do terceiro card. */
+.cards > div:nth-child(3) > img:not(.logo) {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
 }

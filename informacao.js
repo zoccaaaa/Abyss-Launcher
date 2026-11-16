@@ -4,7 +4,7 @@ var elementoContadorDeJogadores = document.getElementById("n2");
 var elementoContadorDePaises = document.getElementById("n3");
 var elementoContadorDeTempoOnline = document.getElementById("n4");
 
-// Lê o valor salvo ou usa o valor inicial quando não há um número válido.
+// Lê o valor salvo ou usa o valor inicial atualizado quando não há um número válido.
 function obterValorSalvo(chave, valorInicial) {
     var valorArmazenado = Number(sessionStorage.getItem(chave));
 
@@ -45,16 +45,15 @@ function formatarTotalDePaises(totalDePaises) {
     return totalDePaises.toLocaleString("pt-BR");
 }
 
-// O tempo online é guardado em décimos: 999 representa 99,9%.
+// O tempo online é guardado em décimos: 704 representa 70,4%.
 // Assim, cada incremento acrescenta 0,1 ponto percentual.
 function formatarTempoOnline(tempoOnlineEmDecimos) {
     var tempoOnlineEmPercentual = tempoOnlineEmDecimos / 10;
     return tempoOnlineEmPercentual.toFixed(1).replace(".", ",") + "%";
 }
 
-// Atualiza e salva os indicadores com seus valores iniciais e formatos próprios.
-incrementarEExibir("jogos", elementoContadorDeJogos, 2400000, formatarTotalDeJogos);
-incrementarEExibir("jogadores", elementoContadorDeJogadores, 12000, formatarTotalDeJogadores);
-incrementarEExibir("paises", elementoContadorDePaises, 180, formatarTotalDePaises);
-incrementarEExibir("tempoOnline", elementoContadorDeTempoOnline, 999, formatarTempoOnline);
-
+// As chaves v2 iniciam uma nova sessão com os valores atualizados do sobre.php.
+incrementarEExibir("jogos_v2", elementoContadorDeJogos, 30, formatarTotalDeJogos);
+incrementarEExibir("jogadores_v2", elementoContadorDeJogadores, 1200, formatarTotalDeJogadores);
+incrementarEExibir("paises_v2", elementoContadorDePaises, 180, formatarTotalDePaises);
+incrementarEExibir("tempoOnline_v2", elementoContadorDeTempoOnline, 704, formatarTempoOnline);
