@@ -1,26 +1,38 @@
 <?php
-include_once __DIR__ . "/../data/jogos.php";
+// Carrega o catálogo (require devolve o array; include_once não devolve nada se já foi carregado)
+$catalogoBusca = $jogos ?? require __DIR__ . "/../data/jogos.php";
 
-$itensBusca = [[
-    "id"      => "hero",
-    "nome"    => $banner["titulo"],
-    "generos" => "Destaque",
-    "preco"   => $banner["preco"],
-    "img"     => $banner["img"],
-]];
-foreach ($jogos as $i => $j) {
+// Monta a lista da busca SEM reutilizar $j / $i, que pertencem ao index.php.
+// Aceita os dois formatos de catálogo: o da biblioteca (nome) e o da loja (titulo/condicoes).
+$itensBusca = [];
+foreach ($catalogoBusca as $slug => $item) {
+    $nome = $item["titulo"] ?? $item["nome"] ?? "";
+
+    $preco = "";
+    if (!empty($item["condicoes"]) && is_array($item["condicoes"])) {
+        $menorPreco = min(array_column($item["condicoes"], "preco"));
+        $preco = "A partir de R$ " . number_format($menorPreco, 2, ",", ".");
+    }
+
+    $generos = $item["genero"] ?? "";
+    if (is_array($generos)) {
+        $generos = implode(", ", $generos);
+    }
+
     $itensBusca[] = [
-        "id"      => "jogo-" . $i,
-        "nome"    => $j["nome"],
-        "generos" => $j["generos"],
-        "preco"   => $j["preco"],
-        "img"     => $j["img"],
+        "id"      => $slug,
+        "nome"    => $nome,
+        "generos" => $generos,
+        "preco"   => $preco,
+        "img"     => $item["img"] ?? $item["imagem"] ?? "",
+        "url"     => "index.php#jogo-" . $slug,
     ];
 }
+unset($slug, $item, $nome, $preco, $generos, $menorPreco, $catalogoBusca);
 ?>
 <header>
     <div class="esquerda">
-      <a href="" class="ativo">Inicio</a>
+      <a href="index.php" class="<?= ($paginaAtual ?? "inicio") === "inicio" ? "ativo" : "" ?>">Inicio</a>
       <a href="">Catalogo</a>
       <a href="">Sobre nós</a>
     </div>
@@ -108,27 +120,34 @@ document.addEventListener('click', (evento) => {
 
   function irPara(jogo) {
     fechar();
-    var alvo = document.getElementById(jogo.id);
-    if (!alvo) return;
-    if (alvo.hidden) {
-      var filtro = document.getElementById("busca");
-      if (filtro) { filtro.value = ""; filtro.dispatchEvent(new Event("input")); }
-    }
-    alvo.scrollIntoView({ behavior: "smooth", block: jogo.id === "hero" ? "start" : "center" });
-    if (jogo.id !== "hero") {
-      alvo.classList.add("destaque");
-      setTimeout(function () { alvo.classList.remove("destaque"); }, 1800);
-    }
+    var card = document.getElementById("jogo-" + jogo.id);
+    if (!card) { window.location.href = jogo.url; return; }   // fora da página do catálogo
+    destacarCard(card);
+    history.replaceState(null, "", "#jogo-" + jogo.id);
   }
 
+  // Rola até o card e o destaca (não abre o modal)
+  function destacarCard(card) {
+    if (card.hidden) {                       // se um filtro de gênero escondeu o card, volta para "Todos"
+      var todos = document.querySelector('#filtro .chip[data-genero=""]');
+      if (todos) todos.click();
+    }
+    document.querySelectorAll(".card--sorteado").forEach(function (c) { c.classList.remove("card--sorteado"); });
+    card.classList.add("card--sorteado");
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(function () { card.classList.remove("card--sorteado"); }, 3000);
+  }
+
+  // Chegou na página já com #jogo-N no endereço (ex.: veio de outra página)
+  window.addEventListener("load", function () {
+    var m = location.hash.match(/^#jogo-(\d+)$/);
+    var card = m && document.getElementById("jogo-" + m[1]);
+    if (card) destacarCard(card);
+  });
+
   function verTodos() {
-    var filtro = document.getElementById("busca");
-    var termo  = campo.value.trim();
     fechar();
-    if (!filtro) return;
-    filtro.value = termo;
-    filtro.dispatchEvent(new Event("input"));
-    filtro.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (encontrados.length) irPara(encontrados[0]);
   }
 
   function desenhar() {
