@@ -1,6 +1,91 @@
 <?php
 require './data/auth.php';
 
+if (empty($_SESSION['csrf_painel'])) {
+    $_SESSION['csrf_painel'] = bin2hex(random_bytes(32));
+}
+
+function painelTamanhoTexto(string $texto): int
+{
+    return function_exists('mb_strlen') ? mb_strlen($texto, 'UTF-8') : strlen($texto);
+}
+
+$feedbackUsuarios = $_SESSION['feedback_usuarios'] ?? '';
+unset($_SESSION['feedback_usuarios']);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar_usuario') {
+    $csrfRecebido = is_string($_POST['csrf_token'] ?? null) ? $_POST['csrf_token'] : '';
+    if (!hash_equals($_SESSION['csrf_painel'], $csrfRecebido)) {
+        $_SESSION['feedback_usuarios'] = 'Sua sessão expirou. Atualize a página e tente novamente.';
+    } else {
+        $idUsuario = filter_input(INPUT_POST, 'id_usuario', FILTER_VALIDATE_INT);
+        $nomeUsuario = is_string($_POST['nome'] ?? null) ? trim($_POST['nome']) : '';
+        $emailUsuario = is_string($_POST['email'] ?? null) ? trim($_POST['email']) : '';
+        $tipoUsuario = is_string($_POST['tipo'] ?? null) ? $_POST['tipo'] : '';
+        $ativoUsuario = ($_POST['ativo'] ?? null) === '1' ? 1 : 0;
+        $justificativa = is_string($_POST['justificativa'] ?? null) ? trim($_POST['justificativa']) : '';
+
+        if (!$idUsuario || $nomeUsuario === '' || !filter_var($emailUsuario, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['feedback_usuarios'] = 'Informe um nome e um e-mail válidos.';
+        } elseif (!in_array($tipoUsuario, ['admin', 'usuario'], true)) {
+            $_SESSION['feedback_usuarios'] = 'O nível de acesso selecionado é inválido.';
+        } elseif (painelTamanhoTexto($nomeUsuario) > 30 || painelTamanhoTexto($emailUsuario) > 150 || painelTamanhoTexto($justificativa) > 1000) {
+            $_SESSION['feedback_usuarios'] = 'O nome ou e-mail excede o limite permitido.';
+        } elseif (!$ativoUsuario && $justificativa === '') {
+            $_SESSION['feedback_usuarios'] = 'Informe uma justificativa para desativar a conta.';
+        } else {
+            $consultaUsuario = $conn->prepare('SELECT tipo, ativo FROM usuarios WHERE id_usuario=?');
+            $consultaUsuario->bind_param('i', $idUsuario);
+            $consultaUsuario->execute();
+            $usuarioAtual = $consultaUsuario->get_result()->fetch_assoc();
+            $editarPropriaConta = $idUsuario === (int) $_SESSION['usuario_id'];
+
+            if (!$usuarioAtual) {
+                $_SESSION['feedback_usuarios'] = 'Essa conta não foi encontrada.';
+            } elseif ($editarPropriaConta && ($tipoUsuario !== 'admin' || !$ativoUsuario)) {
+                $_SESSION['feedback_usuarios'] = 'Não é possível remover seu próprio acesso administrativo.';
+            } else {
+                $removendoAdminAtivo = $usuarioAtual['tipo'] === 'admin'
+                    && (int) $usuarioAtual['ativo'] === 1
+                    && ($tipoUsuario !== 'admin' || !$ativoUsuario);
+                $ultimoAdminAtivo = false;
+
+                if ($removendoAdminAtivo) {
+                    $contagemAdmins = $conn->query("SELECT COUNT(*) AS total FROM usuarios WHERE tipo='admin' AND ativo=1");
+                    $ultimoAdminAtivo = (int) $contagemAdmins->fetch_assoc()['total'] <= 1;
+                }
+
+                if ($ultimoAdminAtivo) {
+                    $_SESSION['feedback_usuarios'] = 'O último administrador ativo não pode ser removido.';
+                } else {
+                    try {
+                        $justificativaSalva = $ativoUsuario ? null : $justificativa;
+                        $atualizacao = $conn->prepare('UPDATE usuarios SET nome=?, email=?, tipo=?, ativo=?, justificativa_desativacao=? WHERE id_usuario=?');
+                        $atualizacao->bind_param('sssisi', $nomeUsuario, $emailUsuario, $tipoUsuario, $ativoUsuario, $justificativaSalva, $idUsuario);
+                        $atualizacao->execute();
+                        $_SESSION['feedback_usuarios'] = 'Conta atualizada com sucesso.';
+                    } catch (mysqli_sql_exception $erro) {
+                        $_SESSION['feedback_usuarios'] = $erro->getCode() === 1062
+                            ? 'Esse e-mail já está sendo usado por outra conta.'
+                            : 'Não foi possível atualizar a conta.';
+                        error_log('Falha ao editar conta no painel: ' . $erro->getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    header('Location: ./painel.php?secao=usuarios');
+    exit;
+}
+
+$usuariosPainel = [];
+$resultadoUsuarios = $conn->query('SELECT id_usuario, nome, email, tipo, ativo, justificativa_desativacao FROM usuarios ORDER BY id_usuario');
+$usuariosPainel = $resultadoUsuarios->fetch_all(MYSQLI_ASSOC);
+
+$consultaAtivos = $conn->query('SELECT COUNT(*) AS total FROM usuarios WHERE ativo=1');
+$totalUsuariosAtivos = (int) $consultaAtivos->fetch_assoc()['total'];
+
 $selecao = $_GET['secao'] ?? 'painel';
 
 $secoes = ['painel', 'produtos', 'usuarios', 'vendas'];
@@ -80,56 +165,16 @@ if (!in_array($selecao, $secoes, true)) {
             </div>
 
             <div class="resumos">
-                <div class="resumo">
-                    <h2>Receita</h2>
-                    <p>R$ 00,00</p>
-                </div>
-                <div class="resumo">
-                    <h2>Pedidos concluídos</h2>
-                    <p>0</p>
-                </div>
-                <div class="resumo">
-                    <h2>Produtos ativos</h2>
-                    <p>20</p>
-                </div>
-                <div class="resumo">
-                    <h2>Produtos acabando</h2>
-                    <p>8</p>
-                </div>
-                <div class="resumo">
-                    <h2>Usuários ativos</h2>
-                    <p>3</p>
-                </div>
+                <div class="resumo"><h2>Receita</h2><p>R$ 0,00</p></div>
+                <div class="resumo"><h2>Pedidos concluídos</h2><p>0</p></div>
+                <div class="resumo"><h2>Produtos ativos</h2><p>0</p></div>
+                <div class="resumo"><h2>Produtos acabando</h2><p>0</p></div>
+                <div class="resumo"><h2>Usuários ativos</h2><p><?= $totalUsuariosAtivos ?></p></div>
             </div>
 
             <section class="grafico" aria-label="Receita diária nos últimos sete dias">
                 <h2>Receita diária - Últimos 7 dias</h2>
-                <div class="barras">
-                    <div class="barra">
-                        <span style="height: 46px"></span>
-                        <p>29/10</p>
-                    </div>
-                    <div class="barra">
-                        <span style="height: 91px"></span>
-                        <p>30/10</p>
-                    </div>
-                    <div class="barra">
-                        <span style="height: 63px"></span>
-                        <p>31/10</p>
-                    </div>
-                    <div class="barra">
-                        <span style="height: 35px"></span>
-                        <p>01/11</p>
-                    </div>
-                    <div class="barra">
-                        <span style="height: 22px"></span>
-                        <p>02/11</p>
-                    </div>
-                    <div class="barra">
-                        <span style="height: 110px"></span>
-                        <p>03/11</p>
-                    </div>
-                </div>
+                <div class="barras"><p class="estado-vazio">Nenhuma venda registrada.</p></div>
             </section>
 
             <section class="pedidos">
@@ -143,14 +188,7 @@ if (!in_array($selecao, $secoes, true)) {
                             <th class="coluna-tabela">Total</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="celula-tabela">#1</td>
-                            <td class="celula-tabela">Zocca</td>
-                            <td class="celula-tabela">04/11/2026</td>
-                            <td class="celula-tabela">R$ 274,50</td>
-                        </tr>
-                    </tbody>
+                    <tbody><tr><td class="celula-tabela" colspan="4">Nenhum pedido registrado.</td></tr></tbody>
                 </table>
             </section>
 
@@ -251,25 +289,10 @@ if (!in_array($selecao, $secoes, true)) {
                                 <th class="coluna-tabela">Preço</th>
                                 <th class="coluna-tabela">Estoque</th>
                                 <th class="coluna-tabela">Status</th>
-                                <th class="coluna-tabela coluna-acao">Ações</th>
+                                                                <th class="coluna-tabela coluna-acao">Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="celula-tabela produto-info">
-                                    <span class="produto-nome">Elden Ring</span>
-                                    <span class="produto-tipo">Digital</span>
-                                </td>
-                                <td class="celula-tabela">RPG • Soulslike</td>
-                                <td class="celula-tabela">R$ 274,00</td>
-                                <td class="celula-tabela">27</td>
-                                <td class="celula-tabela"><span class="status">Ativo</span></td>
-                                <td class="celula-tabela acoes">
-                                    <button type="button">Editar</button>
-                                    <button class="botao-desativar" type="button">Desativar</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody><tr><td class="celula-tabela" colspan="6">Nenhum produto cadastrado.</td></tr></tbody>
                     </table>
                 </div>
             </section>
@@ -308,22 +331,60 @@ if (!in_array($selecao, $secoes, true)) {
                                 <th class="coluna-tabela">Email</th>
                                 <th class="coluna-tabela">Acesso</th>
                                 <th class="coluna-tabela">Status</th>
+                                <th class="coluna-tabela">Justificativa</th>
                                 <th class="coluna-tabela sem-borda">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="celula-tabela">Carrasqueira</td>
-                                <td class="celula-tabela">carrasqueira@email.com</td>
-                                <td class="celula-tabela">Administrador</td>
-                                <td class="celula-tabela"><span class="status">Ativo</span></td>
-                                <td class="celula-tabela sem-borda">
-                                    <button type="button">Editar</button>
-                                </td>
-                            </tr>
+                            <?php foreach ($usuariosPainel as $usuarioPainel): ?>
+                                <?php
+                                $linhaAtiva = (int) $usuarioPainel['ativo'] === 1;
+                                $linhaTipo = $usuarioPainel['tipo'];
+                                ?>
+                                <tr class="linha-usuario" data-nome="<?= htmlspecialchars($usuarioPainel['nome'], ENT_QUOTES, 'UTF-8') ?>" data-email="<?= htmlspecialchars($usuarioPainel['email'], ENT_QUOTES, 'UTF-8') ?>" data-acesso="<?= htmlspecialchars($linhaTipo, ENT_QUOTES, 'UTF-8') ?>">
+                                    <td class="celula-tabela"><?= htmlspecialchars($usuarioPainel['nome'], ENT_QUOTES, 'UTF-8') ?></td>
+                                    <td class="celula-tabela"><?= htmlspecialchars($usuarioPainel['email'], ENT_QUOTES, 'UTF-8') ?></td>
+                                    <td class="celula-tabela"><?= $linhaTipo === 'admin' ? 'Administrador' : 'Usuário' ?></td>
+                                    <td class="celula-tabela"><span class="status <?= $linhaAtiva ? '' : 'status-inativo' ?>"><?= $linhaAtiva ? 'Ativa' : 'Desativada' ?></span></td>
+                                    <td class="celula-tabela justificativa-usuario" title="<?= htmlspecialchars($usuarioPainel['justificativa_desativacao'] ?? '', ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($usuarioPainel['justificativa_desativacao'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
+                                    <td class="celula-tabela sem-borda">
+                                        <button type="button" class="editar-usuario" data-id="<?= (int) $usuarioPainel['id_usuario'] ?>" data-nome="<?= htmlspecialchars($usuarioPainel['nome'], ENT_QUOTES, 'UTF-8') ?>" data-email="<?= htmlspecialchars($usuarioPainel['email'], ENT_QUOTES, 'UTF-8') ?>" data-tipo="<?= htmlspecialchars($linhaTipo, ENT_QUOTES, 'UTF-8') ?>" data-ativo="<?= $linhaAtiva ? '1' : '0' ?>" data-justificativa="<?= htmlspecialchars($usuarioPainel['justificativa_desativacao'] ?? '', ENT_QUOTES, 'UTF-8') ?>">Editar</button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            <?php if (!$usuariosPainel): ?>
+                                <tr><td class="celula-tabela" colspan="6">Nenhuma conta cadastrada.</td></tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
+                <?php if ($feedbackUsuarios !== ''): ?>
+                    <p class="feedback-usuarios" role="status"><?= htmlspecialchars($feedbackUsuarios, ENT_QUOTES, 'UTF-8') ?></p>
+                <?php endif; ?>
+                <dialog class="modal-usuario" id="modal-editar-usuario" aria-labelledby="titulo-editar-usuario">
+                    <form method="post" action="./painel.php?secao=usuarios" class="form-editar-usuario">
+                        <input type="hidden" name="acao" value="editar_usuario">
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_painel'], ENT_QUOTES, 'UTF-8') ?>">
+                        <input type="hidden" name="id_usuario" id="editar-id-usuario">
+                        <h2 id="titulo-editar-usuario">Editar conta</h2>
+                        <label for="editar-nome-usuario">Nome</label>
+                        <input type="text" name="nome" id="editar-nome-usuario" maxlength="30" required>
+                        <label for="editar-email-usuario">E-mail</label>
+                        <input type="email" name="email" id="editar-email-usuario" maxlength="150" required>
+                        <label for="editar-tipo-usuario">Acesso</label>
+                        <select name="tipo" id="editar-tipo-usuario" required>
+                            <option value="usuario">Usuário</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                        <label class="campo-ativo"><input type="checkbox" name="ativo" id="editar-ativo-usuario" value="1"> Conta ativa</label>
+                        <label for="editar-justificativa">Justificativa para desativar</label>
+                        <textarea name="justificativa" id="editar-justificativa" rows="3" maxlength="1000"></textarea>
+                        <div class="acoes-modal">
+                            <button type="button" class="cancelar-edicao">Cancelar</button>
+                            <button type="submit">Salvar alterações</button>
+                        </div>
+                    </form>
+                </dialog>
             </section>
 
         </section>
@@ -337,69 +398,15 @@ if (!in_array($selecao, $secoes, true)) {
             </div>
 
             <div class="resumos">
-                <div class="resumo">
-                    <h2>Receita registrada</h2>
-                    <p>R$ 00,00</p>
-                </div>
-                <div class="resumo">
-                    <h2>Pedidos concluídos</h2>
-                    <p>0</p>
-                </div>
-                <div class="resumo">
-                    <h2>Ticket médio</h2>
-                    <p>R$ 0,00</p>
-                </div>
-                <div class="resumo">
-                    <h2>Período no gráfico</h2>
-                    <select id="periodo-grafico" name="periodo-grafico" aria-label="Período do gráfico">
-                        <option value="1">1 mês</option>
-                        <option value="6">6 meses</option>
-                        <option value="12" selected>12 meses</option>
-                    </select>
-                </div>
+                <div class="resumo"><h2>Receita registrada</h2><p>R$ 0,00</p></div>
+                <div class="resumo"><h2>Pedidos concluídos</h2><p>0</p></div>
+                <div class="resumo"><h2>Ticket médio</h2><p>R$ 0,00</p></div>
             </div>
 
             <section class="grafico-vendas" aria-label="Receita mensal nos últimos 12 meses">
                 <h2>Receita mensal - Últimos 12 meses</h2>
 
-                <div class="barras-vendas">
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>12/25</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>01/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 6px"></span>
-                        <p>02/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>03/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>04/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>05/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>06/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>07/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>08/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>09/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 5px"></span>
-                        <p>10/26</p>
-                    </div>
-                    <div class="barra-vendas"><span style="height: 35px"></span>
-                        <p>11/26</p>
-                    </div>
-                </div>
+                <div class="barras-vendas"><p class="estado-vazio">Nenhuma venda registrada.</p></div>
             </section>
 
             <section class="historico-vendas">
@@ -416,22 +423,7 @@ if (!in_array($selecao, $secoes, true)) {
                                 <th class="coluna-tabela">Total</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="celula-tabela">#1</td>
-                                <td class="celula-tabela">Zocca</td>
-                                <td class="celula-tabela">04/11/2026</td>
-                                <td class="celula-tabela"><span class="concluido">Concluído</span></td>
-                                <td class="celula-tabela">R$ 274,50</td>
-                            </tr>
-                            <tr>
-                                <td class="celula-tabela">#2</td>
-                                <td class="celula-tabela">Carrasqueira</td>
-                                <td class="celula-tabela">02/11/2026</td>
-                                <td class="celula-tabela"><span class="cancelado">Cancelado</span></td>
-                                <td class="celula-tabela">R$ 249,99</td>
-                            </tr>
-                        </tbody>
+                        <tbody><tr><td class="celula-tabela" colspan="5">Nenhum pedido registrado.</td></tr></tbody>
                     </table>
                 </div>
             </section>
@@ -514,53 +506,47 @@ if (!in_array($selecao, $secoes, true)) {
             botaoAbrirCategoria.setAttribute('aria-expanded', 'false');
         });
 
-        const seletorPeriodo = document.querySelector('#periodo-grafico');
-        const barrasVendas = [...document.querySelectorAll('.barra-vendas')];
-        const containerBarrasVendas = document.querySelector('.barras-vendas');
-        const graficoVendas = document.querySelector('.grafico-vendas');
-        const tituloGraficoVendas = graficoVendas.querySelector('h2');
 
-        function atualizarGraficoVendas() {
-            const quantidade = Number(seletorPeriodo.value);
-            containerBarrasVendas.querySelectorAll('.barra-diaria').forEach((barra) => barra.remove());
+        const modalUsuario = document.querySelector('#modal-editar-usuario');
+        const campoAtivo = document.querySelector('#editar-ativo-usuario');
+        const campoJustificativa = document.querySelector('#editar-justificativa');
+        const campoTipo = document.querySelector('#editar-tipo-usuario');
+        const campoId = document.querySelector('#editar-id-usuario');
+        const campoNome = document.querySelector('#editar-nome-usuario');
+        const campoEmail = document.querySelector('#editar-email-usuario');
 
-            if (quantidade === 1) {
-                const diasNoMes = 30;
-                containerBarrasVendas.classList.add('grafico-diario');
-                containerBarrasVendas.style.setProperty('--quantidade-meses', diasNoMes);
-                barrasVendas.forEach((barra) => { barra.hidden = true; });
-
-                for (let dia = 1; dia <= diasNoMes; dia++) {
-                    const barra = document.createElement('div');
-                    const coluna = document.createElement('span');
-                    const rotulo = document.createElement('p');
-                    const altura = 14 + ((dia * 17 + dia * dia * 3) % 82);
-
-                    barra.className = 'barra-vendas barra-diaria';
-                    coluna.style.height = `${altura}px`;
-                    rotulo.textContent = String(dia).padStart(2, '0');
-                    barra.append(coluna, rotulo);
-                    containerBarrasVendas.append(barra);
-                }
-
-                tituloGraficoVendas.textContent = 'Receita diária - Novembro 2026';
-                graficoVendas.setAttribute('aria-label', 'Receita diária durante novembro de 2026');
-                return;
-            }
-
-            containerBarrasVendas.classList.remove('grafico-diario');
-            containerBarrasVendas.style.setProperty('--quantidade-meses', quantidade);
-            barrasVendas.forEach((barra, indice) => {
-                barra.hidden = indice < barrasVendas.length - quantidade;
+        document.querySelectorAll('.editar-usuario').forEach((botao) => {
+            botao.addEventListener('click', () => {
+                campoId.value = botao.dataset.id;
+                campoNome.value = botao.dataset.nome;
+                campoEmail.value = botao.dataset.email;
+                campoTipo.value = botao.dataset.tipo;
+                campoAtivo.checked = botao.dataset.ativo === '1';
+                campoJustificativa.value = botao.dataset.justificativa;
+                campoJustificativa.required = !campoAtivo.checked;
+                modalUsuario.showModal();
             });
+        });
 
-            const periodoTexto = `últimos ${quantidade} meses`;
-            tituloGraficoVendas.textContent = `Receita mensal - ${periodoTexto}`;
-            graficoVendas.setAttribute('aria-label', `Receita mensal nos ${periodoTexto}`);
+        campoAtivo.addEventListener('change', () => {
+            campoJustificativa.required = !campoAtivo.checked;
+        });
+        document.querySelector('.cancelar-edicao').addEventListener('click', () => modalUsuario.close());
+
+        const campoBuscaUsuario = document.querySelector('#busca-usuario');
+        const filtroUsuario = document.querySelector('#filtro-usuario');
+        const botaoBuscaUsuario = document.querySelector('.campo-busca button');
+        function filtrarUsuarios() {
+            const termo = campoBuscaUsuario.value.trim().toLocaleLowerCase('pt-BR');
+            const chave = filtroUsuario.value;
+            document.querySelectorAll('.linha-usuario').forEach((linha) => {
+                const valor = chave === 'acesso' ? linha.cells[2].textContent : linha.dataset[chave];
+                linha.hidden = termo !== '' && !valor.toLocaleLowerCase('pt-BR').includes(termo);
+            });
         }
-
-        seletorPeriodo.addEventListener('change', atualizarGraficoVendas);
-        atualizarGraficoVendas();
+        campoBuscaUsuario.addEventListener('input', filtrarUsuarios);
+        filtroUsuario.addEventListener('change', filtrarUsuarios);
+        botaoBuscaUsuario.addEventListener('click', filtrarUsuarios);
     </script>
 
 </body>

@@ -1,6 +1,26 @@
 <?php
 $usuarioLogado = !empty($_SESSION['usuario_id']);
 $tipoUsuario = $_SESSION['usuario_tipo'] ?? '';
+
+if ($usuarioLogado) {
+    require_once __DIR__ . '/../data/conexao.php';
+    $consultaCabecalho = $conn->prepare('SELECT nome, tipo, ativo FROM usuarios WHERE id_usuario=?');
+    $consultaCabecalho->bind_param('i', $_SESSION['usuario_id']);
+    $consultaCabecalho->execute();
+    $usuarioCabecalho = $consultaCabecalho->get_result()->fetch_assoc();
+
+    if (!$usuarioCabecalho || (int) $usuarioCabecalho['ativo'] !== 1) {
+        $_SESSION = [];
+        session_destroy();
+        $usuarioLogado = false;
+        $tipoUsuario = '';
+    } else {
+        $_SESSION['usuario_nome'] = $usuarioCabecalho['nome'];
+        $_SESSION['usuario_tipo'] = $usuarioCabecalho['tipo'];
+        $tipoUsuario = $usuarioCabecalho['tipo'];
+    }
+}
+
 $usuarioAdmin = $usuarioLogado && $tipoUsuario === 'admin';
 $paginaAtual = basename($_SERVER['PHP_SELF'] ?? '');
 ?>

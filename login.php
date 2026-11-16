@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $email = trim($_POST["email"]);
     $senha = $_POST["senha"];
 
-    $sql = "SELECT id_usuario, nome, tipo, senha FROM usuarios WHERE email=? LIMIT 1";
+    $sql = "SELECT id_usuario, nome, tipo, senha, ativo, justificativa_desativacao FROM usuarios WHERE email=? LIMIT 1";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -18,12 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         || hash_equals($senhaArmazenada, $senha)
     );
 
-    if ($senhaValida) {
+    if ($senhaValida && (int) $usuario->ativo === 1) {
         if (password_needs_rehash($senhaArmazenada, PASSWORD_DEFAULT)) {
-            $senhaAtualizada = password_hash($senha, PASSWORD_DEFAULT);
-            $atualizarSenha = $conn->prepare('UPDATE usuarios SET senha=? WHERE id_usuario=?');
-            $atualizarSenha->bind_param('si', $senhaAtualizada, $usuario->id_usuario);
-            $atualizarSenha->execute();
+            try {
+                $senhaAtualizada = password_hash($senha, PASSWORD_DEFAULT);
+                $atualizarSenha = $conn->prepare('UPDATE usuarios SET senha=? WHERE id_usuario=?');
+                $atualizarSenha->bind_param('si', $senhaAtualizada, $usuario->id_usuario);
+                $atualizarSenha->execute();
+            } catch (mysqli_sql_exception $erro) {
+                error_log('Falha ao atualizar o hash de senha do usuÃ¡rio: ' . $erro->getMessage());
+            }
         }
         session_regenerate_id(true);
         $_SESSION["usuario_id"] = $usuario->id_usuario;
@@ -32,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         header("Location:./index.php");
         exit;
+    } elseif ($senhaValida) {
+        $motivo = trim($usuario->justificativa_desativacao ?? '');
+        $mensagem_erro = $motivo === ''
+            ? 'Esta conta está desativada.'
+            : 'Esta conta está desativada. Entrar em contato com a adminstração';
     } else {
         $mensagem_erro = "Credenciais invalidas";
     }

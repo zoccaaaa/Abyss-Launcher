@@ -586,7 +586,7 @@ body{
 
         table{
             width: 100%;
-            min-width: 760px;
+            min-width: 1040px;
             border-collapse: collapse;
             table-layout: fixed;
             font-size: 13px;
@@ -1047,3 +1047,19 @@ body{
     outline: 2px solid #c6a4e6;
     outline-offset: 3px;
 }
+
+.usuarios .tabela-usuarios .status.status-inativo{background-color:#b63131;}
+.usuarios .justificativa-usuario{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.feedback-usuarios{margin:14px 24px;color:#d7b8f4;}
+.modal-usuario{width:min(92vw,540px);max-height:90vh;margin:auto;padding:0;overflow:auto;border:1px solid #62536f;border-radius:14px;background:#17131c;color:#fff;}
+.modal-usuario::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px);}
+.form-editar-usuario{display:grid;gap:10px;padding:24px;}
+.form-editar-usuario h2{margin:0 0 8px;}
+.form-editar-usuario label{color:#d8d0df;font-size:13px;}
+.form-editar-usuario input:not([type="checkbox"]),.form-editar-usuario select,.form-editar-usuario textarea{width:100%;min-height:40px;padding:9px 11px;border:1px solid #62536f;border-radius:7px;background:#0b0a0d;color:#fff;font:inherit;}
+.form-editar-usuario .campo-ativo{display:flex;align-items:center;gap:9px;margin:5px 0;}
+.form-editar-usuario input[type="checkbox"]{width:17px;height:17px;accent-color:#a77bc8;}
+.acoes-modal{display:flex;justify-content:flex-end;gap:10px;margin-top:10px;}
+.acoes-modal button{min-height:38px;padding:0 15px;border:0;border-radius:8px;background:#765391;color:#fff;font:inherit;cursor:pointer;}
+.acoes-modal .cancelar-edicao{background:#39343f;}
+.estado-vazio{color:#999;text-align:center;}
