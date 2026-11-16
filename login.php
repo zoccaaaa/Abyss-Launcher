@@ -1,4 +1,32 @@
+<?php
+session_start();
+require "./auth/conexao.php";
+$mensagem_erro = "";
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    $email = trim($_POST["email"]);
+    $senha = trim($_POST["senha"]);
 
+    $sql = "SELECT * from usuarios where email=? and senha =?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $email, $senha);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $usuario = $resultado->fetch_object();
+    if ($usuario) {
+        $_SESSION["usuario_id"] = $usuario->id;
+        $_SESSION["usuario_nome"] = $usuario->nome;
+        $_SESSION["usuario_tipo"] = $usuario->tipo;
+        if ($usuario->tipo === "admin") {
+            header("Location:/administrador.php");
+            exit;
+        } else {
+            header("Location:/produtos.php");
+        }
+    } else {
+        $mensagem_erro = "Credenciais invalidas";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
