@@ -126,7 +126,18 @@ body {
     justify-content: center;
     gap: 50px;
     margin-top: 50px;
-
+    .logo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+    }
+    
     .card,
     .card2,
     .card3 {
@@ -141,7 +152,6 @@ body {
         padding: 24px;
         text-align: center;
     }
-
     .card {
         background-image: url('./imagens/hollow%20knight.jpg');
         background-position: center;
