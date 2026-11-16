@@ -27,6 +27,8 @@ align-items: stretch;
             left: 20px;
             width: 60px;
             height: 60px;
+            object-fit: contain;
+            z-index: 20;
         }
         .elipses{
             background: url('../imagens/elipses.png') no-repeat right center;
@@ -170,4 +172,17 @@ align-items: stretch;
     justify-content: flex-start;
     margin: -8px 0 14px;
     color: #ff8585;
+}
+
+.cadastro .direita form .link-login {
+    justify-content: flex-end;
+    width: 80%;
+    margin: 0 0 16px;
+    font-size: 12px;
+}
+
+.cadastro .direita form .link-login a {
+    margin-left: 4px;
+    color: #d7b8f4;
+    text-decoration: none;
 }

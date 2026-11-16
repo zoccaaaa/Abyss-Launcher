@@ -39,13 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
+    <link rel="icon" type="image/png" href="./imagens/logo.png">
     <link rel="stylesheet" href="./css/cadastro.css">
 </head>
 
 <body>
     <div class="cadastro">
         <div class="esquerda">
-            <img class="logo" src="./imagens/logo.png" alt="">
+            <img class="logo" src="./imagens/logo.png" alt="Logo Abyss">
             <div class="elipses"></div>
             <div class="escrita">
                 <h3>SUA LOJA , DO SEU JEITO</h3>
@@ -72,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if ($mensagem_erro !== ''): ?>
                     <p class="mensagem-erro" role="alert"><?= htmlspecialchars($mensagem_erro, ENT_QUOTES, 'UTF-8') ?></p>
                 <?php endif; ?>
-                <p>Já tem conta?<a href="./login.php">Entre já</a> </p>
+                <p class="link-login">Já tem conta?<a href="./login.php">Entre já</a> </p>
                 <button type="submit">Cadastrar <img src="./imagens/seta-entrar.png" alt=""></button>
             </form>
         </div>
