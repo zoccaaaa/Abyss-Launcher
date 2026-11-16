@@ -1,4 +1,3 @@
-<?php include "/login.php"?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
