@@ -1,3 +1,7 @@
+<?php
+require './data/auth.php';
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -57,7 +61,7 @@
                 <div class="linha-total"><dt>Total</dt><dd id="total">R$ 254,80</dd></div>
             </dl>
 
-            <button class="finalizar-pedido" type="button">Finalizar Pedido</button>
+            <a class="finalizar-pedido" href="./finalizar.php">Finalizar Pedido</a>
         </section>
     </main>
 

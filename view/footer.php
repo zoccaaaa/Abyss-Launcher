@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer" id="sobre">
     <div class="pt1">
       <div class="esquerda">
         <div class="marca">

@@ -1,0 +1,20 @@
+* { box-sizing: border-box; }
+body { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 24px; color: #f7f4fa; background: radial-gradient(ellipse at 50% 42%, #30203b 0, #17131c 48%, #0b0a0d 100%); font-family: Poppins, Arial, sans-serif; }
+.aviso-acesso { width: min(100%, 520px); padding: 48px 42px; border: 1px solid #ffffff20; border-radius: 24px; background: #17141ddd; box-shadow: 0 24px 80px #0008; text-align: center; }
+.marca { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 34px; color: inherit; font-size: 22px; font-weight: 700; text-decoration: none; }
+.marca img { width: 42px; height: 42px; object-fit: contain; }
+.icone { width: 72px; height: 72px; display: grid; place-items: center; margin: 0 auto 20px; border-radius: 50%; background: #a27ac626; font-size: 30px; }
+.sobretitulo { margin: 0 0 8px; color: #c2a2dd; font-size: 12px; font-weight: 700; letter-spacing: .18em; }
+h1 { margin: 0; font-size: clamp(27px, 6vw, 36px); }
+.descricao { margin: 14px 0 28px; color: #c5bdca; line-height: 1.7; }
+.acoes { display: grid; gap: 12px; }
+.botao { display: block; padding: 13px 18px; border: 1px solid transparent; border-radius: 10px; color: white; font-weight: 600; text-decoration: none; transition: transform .2s, background .2s; }
+.botao:hover { transform: translateY(-2px); }
+.principal { background: #8859b1; }
+.principal:hover { background: #9a6ac2; }
+.secundario { border-color: #ffffff35; background: #ffffff0a; }
+.secundario:hover { background: #ffffff16; }
+@media (max-width: 480px) { .aviso-acesso { padding: 36px 24px; } }
+.pagina-nao-logado .aviso-acesso { width: min(100%, 460px); padding: 38px 34px; }
+.pagina-nao-logado .aviso-acesso h1 { font-size: clamp(25px, 5vw, 31px); }
+.pagina-nao-logado .aviso-acesso .descricao { margin: 10px 0 22px; }

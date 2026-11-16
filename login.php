@@ -1,27 +1,37 @@
 <?php
 session_start();
-require "./auth/conexao.php";
+require "./data/conexao.php";
 $mensagem_erro = "";
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $email = trim($_POST["email"]);
-    $senha = trim($_POST["senha"]);
+    $senha = $_POST["senha"];
 
-    $sql = "SELECT * from usuarios where email=? and senha =?";
+    $sql = "SELECT id_usuario, nome, tipo, senha FROM usuarios WHERE email=? LIMIT 1";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $email, $senha);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $resultado = $stmt->get_result();
     $usuario = $resultado->fetch_object();
-    if ($usuario) {
-        $_SESSION["usuario_id"] = $usuario->id;
+    $senhaArmazenada = $usuario->senha ?? '';
+    $senhaValida = $usuario && (
+        password_verify($senha, $senhaArmazenada)
+        || hash_equals($senhaArmazenada, $senha)
+    );
+
+    if ($senhaValida) {
+        if (password_needs_rehash($senhaArmazenada, PASSWORD_DEFAULT)) {
+            $senhaAtualizada = password_hash($senha, PASSWORD_DEFAULT);
+            $atualizarSenha = $conn->prepare('UPDATE usuarios SET senha=? WHERE id_usuario=?');
+            $atualizarSenha->bind_param('si', $senhaAtualizada, $usuario->id_usuario);
+            $atualizarSenha->execute();
+        }
+        session_regenerate_id(true);
+        $_SESSION["usuario_id"] = $usuario->id_usuario;
         $_SESSION["usuario_nome"] = $usuario->nome;
         $_SESSION["usuario_tipo"] = $usuario->tipo;
-        if ($usuario->tipo === "admin") {
-            header("Location:/administrador.php");
-            exit;
-        } else {
-            header("Location:/produtos.php");
-        }
+
+        header("Location:./index.php");
+        exit;
     } else {
         $mensagem_erro = "Credenciais invalidas";
     }
@@ -34,13 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/login.css">
+    <link rel="icon" type="image/png" href="./imagens/logo.png">
+    <link rel="stylesheet" href="./css/login.css">
 </head>
 
 <body>
     <div class="login">
         <div class="esquerda">
-            <img class="logo" src="./imagens/logo.png" alt="">
+            <img class="logo" src="./imagens/logo.png" alt="Logo Abyss">
             <div class="elipses"></div>
             <div class="escrita">
                 <h3>SUA LOJA , DO SEU JEITO</h3>
@@ -56,15 +67,34 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             </div>
             <form method="POST">
                 <label for="email">E-mail</label>
-                <input type="email" placeholder="Digite seu e-mail" required>
+                <input type="email" name="email" placeholder="Digite seu e-mail" required>
                 <label for="password">Senha</label>
-                <input type="password" placeholder="Digite sua senha" required>
+                <div class="campo-senha">
+                    <input id="password" type="password" name="senha" placeholder="Digite sua senha" required>
+                    <button class="revelar-senha" type="button" data-revelar-senha aria-pressed="false">Mostrar</button>
+                </div>
 
-                <p>Ainda não tem conta?<a href="/cadastro.php">Cadastre-se</a> </p>
+                <?php if ($mensagem_erro !== ''): ?>
+                    <p class="mensagem-erro" role="alert"><?= htmlspecialchars($mensagem_erro, ENT_QUOTES, 'UTF-8') ?></p>
+                <?php endif; ?>
+
+                <p class="link-cadastro">Ainda não tem conta? <a href="./cadastro.php">Cadastre-se</a></p>
                 <button type="submit">Entrar <img src="./imagens/seta-entrar.png" alt=""></button>
             </form>
         </div>
     </div>
+    <script>
+      document.querySelectorAll('[data-revelar-senha]').forEach((botao) => {
+        botao.addEventListener('click', () => {
+          const campo = botao.parentElement.querySelector('input');
+          const revelar = campo.type === 'password';
+          campo.type = revelar ? 'text' : 'password';
+          botao.textContent = revelar ? 'Ocultar' : 'Mostrar';
+          botao.setAttribute('aria-pressed', revelar ? 'true' : 'false');
+          botao.setAttribute('aria-label', revelar ? 'Ocultar senha' : 'Mostrar senha');
+        });
+      });
+    </script>
 </body>
 
 </html>

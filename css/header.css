@@ -188,3 +188,15 @@ justify-content: space-between;
   header .esquerda .logo-abyss{width:40px;height:40px;}
   header .esquerda a{font-size:12px;}
 }
+
+header .menu-perfil .nome-perfil{
+  padding:10px 12px 6px;
+  color:#b99ad9;
+  font-size:12px;
+  font-weight:600;
+}
+
+header .menu-perfil .opcao-admin{
+  color:#d6b3f2;
+  font-weight:600;
+}

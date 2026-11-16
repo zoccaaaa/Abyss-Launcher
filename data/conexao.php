@@ -1,10 +1,22 @@
 <?php
-$host="localhost";
-$dbname="projetofinal";
-$user="root";
-$password="root";
-
-$conn = new mysqli($host, $user, $password, $dbname);
-if($conn->connect_error) {
-    die("Falha na conexão:". $conn->connect_error);
+$host = getenv('ABYSS_DB_HOST') ?: 'localhost';
+$dbname = getenv('ABYSS_DB_NAME') ?: 'projetofinal';
+$user = getenv('ABYSS_DB_USER') ?: 'root';
+$password = getenv('ABYSS_DB_PASSWORD');
+if ($password === false) {
+    $password = 'root'; // Compatibilidade com a configuração local atual.
 }
+
+try {
+    $conn = new mysqli($host, $user, $password, $dbname);
+} catch (mysqli_sql_exception $erro) {
+    error_log('Falha ao conectar ao banco Abyss: ' . $erro->getMessage());
+    http_response_code(500);
+    exit('Não foi possível conectar ao banco de dados.');
+}
+if ($conn->connect_error) {
+    error_log('Falha ao conectar ao banco Abyss: ' . $conn->connect_error);
+    http_response_code(500);
+    exit('Não foi possível conectar ao banco de dados.');
+}
+$conn->set_charset('utf8mb4');

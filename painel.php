@@ -1,4 +1,5 @@
 <?php
+require './data/auth.php';
 
 $selecao = $_GET['secao'] ?? 'painel';
 

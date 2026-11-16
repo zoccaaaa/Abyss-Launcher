@@ -1,4 +1,4 @@
-
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -27,13 +27,13 @@
         <img class="banner-logo" src="./imagens/Logotipo Phantom Blade Zero.png" alt="Phantom Blade Zero">
         <p class="banner-status">DESTAQUE DA SEMANA</p>
         <div class="acoes">
-            <a class="comprar" href="#">Ver jogo</a>
+            <a class="comprar" href="./jogo.php">Ver jogo</a>
             <button type="button" aria-label="Favoritar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v18l-6-4-6 4z"/></svg></button>
         </div>
     </div>
    </section>
 
-     <div class="destaques">
+     <div class="destaques" id="catalogo">
         <div class="titulo">
             <h1>Jogos em destaque</h1>
             <div class="linha"></div>
@@ -47,7 +47,7 @@
                     <p>Esportes</p>
                     <div class="final">
                         <h3>R$ 349,99</h3>
-                        <a href="#">Ver jogo <span>&rsaquo;</span></a>
+                        <a href="./jogo.php">Ver jogo <span>&rsaquo;</span></a>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                 <p class="descricao" data-descricao>Uma mãe. Uma filha desaparecida. Um mistério esperando pra ser desvendado</p>
                 <p class="preco" data-preco>R$ 80,00</p>
                 <div class="acoes">
-                    <a class="comprar" href="#">Compre agora</a>
+                    <a class="comprar" href="./jogo.php">Compre agora</a>
                     <button class="favorito-vitrine" type="button" aria-label="Favoritar" aria-pressed="false" data-favoritar-vitrine><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button>
                 </div>
             </div>
@@ -86,15 +86,15 @@
             <article class="descubra-banner">
                 <img src="./imagens/descubra.png" alt="Descobrir algo novo">
                 <h2>Descobrir<br>algo novo</h2>
-                <a href="#">Ver mais</a>
+                <a href="./jogo.php">Ver mais</a>
             </article>
             <div class="descubra-jogos">
-                <div class="descubra-jogo"><a class="descubra-jogo-link" href="#"><img src="./imagens/Sorry We Are Closed.png" alt=""><span><strong>Sorry were closed</strong><small>R$ 21,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="descubra-jogo"><a class="descubra-jogo-link" href="#"><img src="./imagens/Metro 2030.png" alt=""><span><strong>Metro 2039</strong><small>R$ 359,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="descubra-jogo"><a class="descubra-jogo-link" href="#"><img src="./imagens/Permafrost.png" alt=""><span><strong>Permafrost</strong><small>R$ 65,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="descubra-jogo"><a class="descubra-jogo-link" href="#"><img src="./imagens/Beautiful ligth.png" alt=""><span><strong>Beautiful Light</strong><small>R$ 229,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="descubra-jogo"><a class="descubra-jogo-link" href="#"><img src="./imagens/Forever ago.png" alt=""><span><strong>Forever Ago</strong><small>R$ 70,00</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="descubra-jogo"><a class="descubra-jogo-link" href="#"><img src="./imagens/Out of word.png" alt=""><span><strong>Out of words</strong><small>R$ 199,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="descubra-jogo"><a class="descubra-jogo-link" href="./jogo.php"><img src="./imagens/Sorry We Are Closed.png" alt=""><span><strong>Sorry were closed</strong><small>R$ 21,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="descubra-jogo"><a class="descubra-jogo-link" href="./jogo.php"><img src="./imagens/Metro 2030.png" alt=""><span><strong>Metro 2039</strong><small>R$ 359,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="descubra-jogo"><a class="descubra-jogo-link" href="./jogo.php"><img src="./imagens/Permafrost.png" alt=""><span><strong>Permafrost</strong><small>R$ 65,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="descubra-jogo"><a class="descubra-jogo-link" href="./jogo.php"><img src="./imagens/Beautiful ligth.png" alt=""><span><strong>Beautiful Light</strong><small>R$ 229,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="descubra-jogo"><a class="descubra-jogo-link" href="./jogo.php"><img src="./imagens/Forever ago.png" alt=""><span><strong>Forever Ago</strong><small>R$ 70,00</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="descubra-jogo"><a class="descubra-jogo-link" href="./jogo.php"><img src="./imagens/Out of word.png" alt=""><span><strong>Out of words</strong><small>R$ 199,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
             </div>
         </div>
    </section>
@@ -135,15 +135,15 @@
             <article class="lancamentos-banner">
                 <img src="./imagens/Verde lancamentos.png" alt="">
                 <h2>Novos<br>lançamentos</h2>
-                <a href="#">Ver mais</a>
+                <a href="./jogo.php">Ver mais</a>
             </article>
             <div class="lancamentos-jogos">
-                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="#"><img src="./imagens/Lost twin.png" alt=""><span><strong>Lost twins II</strong><small>Em breve!</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="#"><img src="./imagens/Tatto shop simulator.png" alt=""><span><strong>Tattoo Shop Simulator</strong><small>R$ 50,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="#"><img src="./imagens/My dear.exe.png" alt=""><span><strong>My dear.exe</strong><small>R$ 20,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="#"><img src="./imagens/Deadly Match.png" alt=""><span><strong>Deadly match</strong><small>R$ 15,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="#"><img src="./imagens/Loftia.png" alt=""><span><strong>Loftia</strong><small>R$ 70,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
-                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="#"><img src="./imagens/RObot mil.png" alt=""><span><strong>Robot mil</strong><small>R$ 12,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="./jogo.php"><img src="./imagens/Lost twin.png" alt=""><span><strong>Lost twins II</strong><small>Em breve!</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="./jogo.php"><img src="./imagens/Tatto shop simulator.png" alt=""><span><strong>Tattoo Shop Simulator</strong><small>R$ 50,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="./jogo.php"><img src="./imagens/My dear.exe.png" alt=""><span><strong>My dear.exe</strong><small>R$ 20,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="./jogo.php"><img src="./imagens/Deadly Match.png" alt=""><span><strong>Deadly match</strong><small>R$ 15,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="./jogo.php"><img src="./imagens/Loftia.png" alt=""><span><strong>Loftia</strong><small>R$ 70,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
+                <div class="lancamento-jogo"><a class="lancamento-jogo-link" href="./jogo.php"><img src="./imagens/RObot mil.png" alt=""><span><strong>Robot mil</strong><small>R$ 12,99</small></span></a><button class="favoritar" type="button" aria-label="Favoritar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"/></svg></button></div>
             </div>
         </div>
    </section>

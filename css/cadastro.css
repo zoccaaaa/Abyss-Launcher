@@ -7,13 +7,20 @@ body{
     font-family: 'poppins', sans-serif; 
     background-color: black;
     color: white;
+    min-height: 100vh;
 }
+html, body { min-height: 100%; }
 .cadastro{
 display: flex;
 flex-direction: row;
+width: 100%;
+min-height: 100vh;
+align-items: stretch;
     .esquerda{
+        position: relative;
         border-right: 1px solid #333;
         width: 60%;
+        min-height: 100vh;
         .logo{
             position: absolute;
             top: 20px;
@@ -22,10 +29,11 @@ flex-direction: row;
             height: 60px;
         }
         .elipses{
-            background: url('./imagens/elipses.png') no-repeat right center;
+            background: url('../imagens/elipses.png') no-repeat right center;
             background-size: 100% 100%;
             z-index: 10;
-            height: 690px;
+            height: 100vh;
+            min-height: 690px;
             width: 100%;
         }
         .escrita{
@@ -56,6 +64,7 @@ flex-direction: row;
         justify-content: center;
         align-items: center;
         width: 40%;
+        min-height: 100vh;
         .escritas{
             display: flex;
             gap: 20px;
@@ -94,7 +103,9 @@ flex-direction: row;
             }
             
             input:focus {
-                background-color: #C866DE;
+                background-color: black;
+                border-color: white;
+                outline: none;
             }  
             input::placeholder{
                 color: white;
@@ -126,4 +137,37 @@ flex-direction: row;
             }
         }
     }
+}
+
+.cadastro .direita form .campo-senha {
+    width: 80%;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.cadastro .direita form .campo-senha input {
+    width: 100%;
+    padding-right: 82px;
+    margin-bottom: 0;
+}
+
+.cadastro .direita form .campo-senha .revelar-senha {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: auto;
+    height: auto;
+    padding: 6px;
+    border: 0;
+    background: transparent;
+    color: #d7b8f4;
+    font-size: 12px;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.cadastro .direita form .mensagem-erro {
+    justify-content: flex-start;
+    margin: -8px 0 14px;
+    color: #ff8585;
 }
