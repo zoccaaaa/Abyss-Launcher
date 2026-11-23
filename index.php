@@ -166,6 +166,9 @@
             atual = indice;
             const botao = botoes[indice];
             const jogo = jogos[botao.dataset.jogo];
+            principal.classList.remove('trocando');
+            void principal.offsetWidth;
+            principal.classList.add('trocando');
             favoritoPrincipal.dataset.jogo = botao.dataset.jogo;
             favoritoPrincipal.setAttribute('aria-pressed', favoritosVitrine[botao.dataset.jogo] ? 'true' : 'false');
             favoritoPrincipal.setAttribute('aria-label', favoritosVitrine[botao.dataset.jogo] ? 'Remover dos favoritos' : 'Favoritar');
@@ -185,7 +188,7 @@
                 progresso += 2;
                 botao.style.setProperty('--progresso', `${progresso}%`);
                 if (progresso >= 100) selecionar((atual + 1) % botoes.length, true);
-            }, 200);
+            }, 140);
         }
         botoes.forEach((botao, indice) => botao.addEventListener('click', () => selecionar(indice)));
         favoritoPrincipal.addEventListener('click', () => {
