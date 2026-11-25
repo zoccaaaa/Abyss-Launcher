@@ -168,6 +168,59 @@ align-items: stretch;
     transform: translateY(-50%);
 }
 
+.cadastro .direita {
+    justify-content: flex-start;
+    padding: 32px 0;
+}
+
+.cadastro .direita form select {
+    width: 80%;
+    height: 50px;
+    margin: 5px 0 18px;
+    padding: 0 14px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    background: #000;
+    color: #fff;
+    font: inherit;
+}
+
+.cadastro .direita form select:disabled {
+    color: #888;
+    opacity: .8;
+}
+
+.cadastro .direita form .endereco-linha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 80%;
+}
+
+.cadastro .direita form .campo-endereco {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.cadastro .direita form .campo-endereco label,
+.cadastro .direita form .campo-endereco select {
+    width: 100%;
+}
+
+.cadastro .direita form .endereco-status {
+    justify-content: flex-start;
+    width: 80%;
+    margin: -12px 0 16px;
+    color: #c7a4df;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.cadastro .direita form .endereco-status:empty {
+    display: none;
+}
+
 .cadastro .direita form .mensagem-erro {
     justify-content: flex-start;
     margin: -8px 0 14px;
@@ -185,4 +238,20 @@ align-items: stretch;
     margin-left: 4px;
     color: #d7b8f4;
     text-decoration: none;
+}
+
+@media (max-width: 900px) {
+    .cadastro { flex-direction: column; }
+    .cadastro .esquerda { width: 100%; min-height: 220px; border-right: 0; border-bottom: 1px solid #333; }
+    .cadastro .esquerda .elipses { height: 220px; min-height: 220px; }
+    .cadastro .esquerda .escrita { top: 75px; left: 100px; gap: 8px; }
+    .cadastro .esquerda .escrita h1 { width: auto; font-size: 38px; }
+    .cadastro .esquerda .escrita p { width: min(370px, calc(100vw - 120px)); font-size: 13px; }
+    .cadastro .direita { width: 100%; min-height: auto; padding: 36px 0 48px; }
+    .cadastro .direita .escritas { width: min(80%, 520px); margin-bottom: 28px; }
+    .cadastro .direita form { max-width: 650px; }
+}
+
+@media (max-width: 480px) {
+    .cadastro .direita form .endereco-linha { grid-template-columns: 1fr; gap: 0; }
 }

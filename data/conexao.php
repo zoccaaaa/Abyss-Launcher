@@ -38,6 +38,21 @@ if (!in_array('foto_perfil', $nomesColunasUsuario, true)) {
 if (!in_array('foto_banner', $nomesColunasUsuario, true)) {
     $alteracoesPerfil[] = 'ADD COLUMN foto_banner VARCHAR(255) NULL';
 }
+if (!in_array('cep', $nomesColunasUsuario, true)) {
+    $alteracoesPerfil[] = 'ADD COLUMN cep CHAR(8) NULL';
+}
+if (!in_array('estado', $nomesColunasUsuario, true)) {
+    $alteracoesPerfil[] = 'ADD COLUMN estado CHAR(2) NULL';
+}
+if (!in_array('cidade', $nomesColunasUsuario, true)) {
+    $alteracoesPerfil[] = 'ADD COLUMN cidade VARCHAR(100) NULL';
+}
+if (!in_array('rua', $nomesColunasUsuario, true)) {
+    $alteracoesPerfil[] = 'ADD COLUMN rua VARCHAR(150) NULL';
+}
+if (!in_array('numero', $nomesColunasUsuario, true)) {
+    $alteracoesPerfil[] = 'ADD COLUMN numero VARCHAR(20) NULL';
+}
 
 if ($alteracoesPerfil) {
     $conn->query('ALTER TABLE usuarios ' . implode(', ', $alteracoesPerfil));

@@ -222,31 +222,104 @@ body {
   position: relative;
 }
 
-.avatar.edit-image .image-edit {
-  flex-direction: column;
-  gap: 0;
+.avatar.edit-image {
+  overflow: visible;
+}
+
+.avatar.edit-image::after,
+.avatar.edit-image img {
   border-radius: 50%;
-  font-size: 0;
 }
 
-.avatar.edit-image .image-edit span {
-  display: none;
+.avatar-actions-toggle {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  transition: opacity .22s ease, visibility .22s ease;
 }
 
-.avatar.edit-image .image-edit svg {
+.avatar-actions-toggle svg {
   box-sizing: border-box;
   width: 42px;
   height: 42px;
   padding: 10px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   border: 1px solid #ffffff55;
   border-radius: 50%;
   background: #111c;
   box-shadow: 0 4px 14px #0008;
 }
 
+.avatar.edit-image:hover .avatar-actions-toggle,
+.avatar.edit-image:focus-within .avatar-actions-toggle,
+.avatar-actions-toggle[aria-expanded="true"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.avatar-photo-actions {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 8px);
+  left: 0;
+  display: grid;
+  min-width: 138px;
+  overflow: hidden;
+  border: 1px solid #ffffff30;
+  border-radius: 10px;
+  background: #201b25;
+  box-shadow: 0 8px 24px #0009;
+}
+
+.avatar-photo-actions[hidden] {
+  display: none;
+}
+
+.avatar-photo-actions label,
+.avatar-photo-actions button {
+  padding: 10px 13px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.avatar-photo-actions label:hover,
+.avatar-photo-actions button:hover,
+.avatar-photo-actions label:focus-visible,
+.avatar-photo-actions button:focus-visible {
+  background: #ffffff14;
+  outline: none;
+}
+
 @media (hover: none) {
   .edit-image::after,
-  .edit-image .image-edit {
+  .edit-image .image-edit,
+  .edit-image .overlay-remove {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .avatar.edit-image .avatar-actions-toggle {
     opacity: 1;
     visibility: visible;
   }
@@ -539,6 +612,39 @@ body {
 
 .edit-profile {
   margin-bottom: 42px;
+}
+
+.overlay-remove {
+  position: absolute;
+  z-index: 4;
+  padding: 8px 12px;
+  border: 1px solid #ffffff35;
+  border-radius: 999px;
+  background: #111c;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .22s ease, visibility .22s ease, background-color .22s ease;
+}
+
+.edit-image:hover .overlay-remove,
+.edit-image:focus-within .overlay-remove {
+  opacity: 1;
+  visibility: visible;
+}
+
+.overlay-remove:hover,
+.overlay-remove:focus-visible {
+  border-color: #fff;
+  background: #382b43;
+}
+
+.overlay-remove-banner {
+  right: 24px;
+  bottom: 16px;
 }
 
 .favorites-heading {

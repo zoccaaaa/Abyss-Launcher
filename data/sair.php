@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_saida'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmar saída | Abyss</title>
+    <link rel="icon" type="image/png" href="../imagens/logo.png">
     <link rel="stylesheet" href="../css/nao-logado.css">
 </head>
 <body>

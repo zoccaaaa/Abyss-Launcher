@@ -23,6 +23,8 @@ if (!$perfil) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $removerFotoPerfil = isset($_POST['remover_foto_perfil']);
+    $removerBannerPerfil = isset($_POST['remover_banner_perfil']);
     $tokenEnviado = (string) ($_POST['token_perfil'] ?? '');
     if (!hash_equals($_SESSION['token_perfil'], $tokenEnviado)) {
         $errosPerfil[] = 'Sua sessão do formulário expirou. Atualize a página e tente novamente.';
@@ -52,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $caminhoNovaFoto = null;
     $diretorioFotos = __DIR__ . '/uploads/perfis';
 
-    if ($arquivoEnviado && $arquivoEnviado['error'] !== UPLOAD_ERR_NO_FILE) {
+    if (!$removerFotoPerfil && $arquivoEnviado && $arquivoEnviado['error'] !== UPLOAD_ERR_NO_FILE) {
         if ($arquivoEnviado['error'] !== UPLOAD_ERR_OK || $arquivoEnviado['size'] > 5 * 1024 * 1024) {
             $errosPerfil[] = 'A foto deve ter no máximo 5 MB e ser enviada corretamente.';
         } elseif (!is_uploaded_file($arquivoEnviado['tmp_name'])) {
@@ -86,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bannerAtual = $perfil['foto_banner'] ?? null;
     $arquivoBanner = $_FILES['foto_banner'] ?? null;
     $caminhoNovoBanner = null;
-    if ($arquivoBanner && $arquivoBanner['error'] !== UPLOAD_ERR_NO_FILE) {
+    if (!$removerBannerPerfil && $arquivoBanner && $arquivoBanner['error'] !== UPLOAD_ERR_NO_FILE) {
         if ($arquivoBanner['error'] !== UPLOAD_ERR_OK || $arquivoBanner['size'] > 5 * 1024 * 1024) {
             $errosPerfil[] = 'Nao foi possivel processar o banner.';
         } elseif (!is_uploaded_file($arquivoBanner['tmp_name'])) {
@@ -118,26 +120,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$errosPerfil) {
-        $fotoParaSalvar = $caminhoNovaFoto ?? $fotoAtual;
-        $bannerParaSalvar = $caminhoNovoBanner ?? $bannerAtual;
+        $fotoParaSalvar = $removerFotoPerfil ? null : ($caminhoNovaFoto ?? $fotoAtual);
+        $bannerParaSalvar = $removerBannerPerfil ? null : ($caminhoNovoBanner ?? $bannerAtual);
         $atualizarPerfil = $conn->prepare('UPDATE usuarios SET nome=?, descricao=?, foto_perfil=?, foto_banner=? WHERE id_usuario=?');
         $atualizarPerfil->bind_param('ssssi', $nomePerfil, $descricaoPerfil, $fotoParaSalvar, $bannerParaSalvar, $idUsuarioPerfil);
 
         if ($atualizarPerfil->execute()) {
             $_SESSION['usuario_nome'] = $nomePerfil;
-            if ($caminhoNovaFoto !== null && !empty($fotoAtual) && strpos($fotoAtual, 'uploads/perfis/') === 0) {
+            if (($removerFotoPerfil || $caminhoNovaFoto !== null) && !empty($fotoAtual) && strpos($fotoAtual, 'uploads/perfis/') === 0) {
                 $arquivoAntigo = $diretorioFotos . '/' . basename($fotoAtual);
                 if (is_file($arquivoAntigo)) {
                     unlink($arquivoAntigo);
                 }
             }
-            if ($caminhoNovoBanner !== null && !empty($bannerAtual) && strpos($bannerAtual, 'uploads/perfis/') === 0) {
+            if (($removerBannerPerfil || $caminhoNovoBanner !== null) && !empty($bannerAtual) && strpos($bannerAtual, 'uploads/perfis/') === 0) {
                 $bannerAntigo = $diretorioFotos . '/' . basename($bannerAtual);
                 if (is_file($bannerAntigo)) {
                     unlink($bannerAntigo);
                 }
             }
-            $_SESSION['mensagem_perfil'] = 'Perfil atualizado com sucesso.';
+            if ($removerFotoPerfil && $removerBannerPerfil) {
+                $_SESSION['mensagem_perfil'] = 'Foto de perfil e banner removidos.';
+            } elseif ($removerFotoPerfil) {
+                $_SESSION['mensagem_perfil'] = 'Foto de perfil removida.';
+            } elseif ($removerBannerPerfil) {
+                $_SESSION['mensagem_perfil'] = 'Banner removido.';
+            } else {
+                $_SESSION['mensagem_perfil'] = 'Perfil atualizado com sucesso.';
+            }
             header('Location: ./perfil.php#editar-perfil');
             exit;
         }
@@ -167,6 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $fotoPerfil = !empty($perfil['foto_perfil']) ? './' . ltrim($perfil['foto_perfil'], '/') : './imagens/perfil.png';
 $fotoPerfilPadrao = empty($perfil['foto_perfil']);
 $bannerPerfil = !empty($perfil['foto_banner']) ? './' . ltrim($perfil['foto_banner'], '/') : './imagens/fundo.png';
+$bannerPerfilPadrao = empty($perfil['foto_banner']);
 $escapar = static function ($valor) {
     return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
 };
@@ -177,6 +188,7 @@ $escapar = static function ($valor) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil do jogador</title>
+  <link rel="icon" type="image/png" href="./imagens/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -197,6 +209,9 @@ $escapar = static function ($valor) {
         <img class="cover-image" src="<?= $escapar($bannerPerfil) ?>" alt="Banner do perfil de <?= $escapar($perfil['nome']) ?>">
         <input class="image-upload" id="foto_banner" name="foto_banner" type="file" accept="image/jpeg,image/png,image/webp,image/gif" aria-label="Escolher banner do perfil">
         <label class="image-edit" for="foto_banner"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg><span>Editar banner</span></label>
+        <?php if (!$bannerPerfilPadrao): ?>
+          <button class="overlay-remove overlay-remove-banner" type="submit" name="remover_banner_perfil" value="1" formnovalidate>Remover banner</button>
+        <?php endif; ?>
         <span class="age-rating"></span>
       </div>
 
@@ -205,7 +220,15 @@ $escapar = static function ($valor) {
           <div class="avatar avatar-large edit-image <?= $fotoPerfilPadrao ? 'avatar-placeholder' : '' ?>">
             <img src="<?= $escapar($fotoPerfil) ?>" alt="Foto de perfil de <?= $escapar($perfil['nome']) ?>" data-avatar-preview>
             <input class="image-upload" id="foto_perfil" name="foto_perfil" type="file" accept="image/jpeg,image/png,image/webp,image/gif" aria-label="Escolher foto de perfil">
-            <label class="image-edit" for="foto_perfil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg><span>Editar foto</span></label>
+            <button class="avatar-actions-toggle" type="button" aria-label="Opções da foto de perfil" aria-expanded="false" aria-controls="avatar-photo-actions">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg>
+            </button>
+            <div class="avatar-photo-actions" id="avatar-photo-actions" hidden>
+              <label for="foto_perfil">Editar foto</label>
+              <?php if (!$fotoPerfilPadrao): ?>
+                <button type="submit" name="remover_foto_perfil" value="1" formnovalidate>Excluir foto</button>
+              <?php endif; ?>
+            </div>
           </div>
           <div class="user-info">
             <h1><?= $escapar($perfil['nome']) ?></h1>
@@ -459,6 +482,25 @@ $escapar = static function ($valor) {
 
       document.getElementById('crop-cancel').addEventListener('click', cancelarRecorte);
       document.getElementById('crop-cancel-top').addEventListener('click', cancelarRecorte);
+      const avatarActionsToggle = document.querySelector('.avatar-actions-toggle');
+      const avatarPhotoActions = document.getElementById('avatar-photo-actions');
+      avatarActionsToggle.addEventListener('click', () => {
+        const abrir = avatarActionsToggle.getAttribute('aria-expanded') !== 'true';
+        avatarActionsToggle.setAttribute('aria-expanded', String(abrir));
+        avatarPhotoActions.hidden = !abrir;
+      });
+      document.addEventListener('click', (evento) => {
+        if (!evento.target.closest('.avatar.edit-image')) {
+          avatarActionsToggle.setAttribute('aria-expanded', 'false');
+          avatarPhotoActions.hidden = true;
+        }
+      });
+      document.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Escape') {
+          avatarActionsToggle.setAttribute('aria-expanded', 'false');
+          avatarPhotoActions.hidden = true;
+        }
+      });
       dialogo.addEventListener('cancel', (evento) => {
         evento.preventDefault();
         cancelarRecorte();
