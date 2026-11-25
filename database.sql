@@ -14,12 +14,54 @@ CREATE TABLE IF NOT EXISTS usuarios (
     nome VARCHAR(30) NOT NULL,
     email VARCHAR(150) NOT NULL,
     senha VARCHAR(255) NOT NULL,
+    descricao VARCHAR(500) NULL,
+    foto_perfil VARCHAR(255) NULL,
+    foto_banner VARCHAR(255) NULL,
     tipo ENUM('admin', 'usuario') DEFAULT 'usuario',
     ativo TINYINT(1) NOT NULL DEFAULT 1,
     justificativa_desativacao TEXT NULL,
     PRIMARY KEY (id_usuario),
     UNIQUE KEY email (email)
 );
+
+SET @coluna_descricao_perfil = (
+    SELECT COUNT(*) FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'usuarios' AND COLUMN_NAME = 'descricao'
+);
+SET @sql_descricao_perfil = IF(
+    @coluna_descricao_perfil = 0,
+    'ALTER TABLE usuarios ADD COLUMN descricao VARCHAR(500) NULL',
+    'SELECT 1'
+);
+PREPARE stmt_descricao_perfil FROM @sql_descricao_perfil;
+EXECUTE stmt_descricao_perfil;
+DEALLOCATE PREPARE stmt_descricao_perfil;
+
+SET @coluna_foto_perfil = (
+    SELECT COUNT(*) FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'usuarios' AND COLUMN_NAME = 'foto_perfil'
+);
+SET @sql_foto_perfil = IF(
+    @coluna_foto_perfil = 0,
+    'ALTER TABLE usuarios ADD COLUMN foto_perfil VARCHAR(255) NULL',
+    'SELECT 1'
+);
+PREPARE stmt_foto_perfil FROM @sql_foto_perfil;
+EXECUTE stmt_foto_perfil;
+DEALLOCATE PREPARE stmt_foto_perfil;
+
+SET @coluna_foto_banner = (
+    SELECT COUNT(*) FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'usuarios' AND COLUMN_NAME = 'foto_banner'
+);
+SET @sql_foto_banner = IF(
+    @coluna_foto_banner = 0,
+    'ALTER TABLE usuarios ADD COLUMN foto_banner VARCHAR(255) NULL',
+    'SELECT 1'
+);
+PREPARE stmt_foto_banner FROM @sql_foto_banner;
+EXECUTE stmt_foto_banner;
+DEALLOCATE PREPARE stmt_foto_banner;
 
 CREATE TABLE IF NOT EXISTS jogos (
     id_jogo INT NOT NULL AUTO_INCREMENT,

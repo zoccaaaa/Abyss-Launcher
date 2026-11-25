@@ -25,41 +25,19 @@ require './data/auth.php';
             <p>Pagamento seguro <span aria-hidden="true">·</span> PIX</p>
         </header>
 
-        <section class="painel-pagamento" id="etapa-pix" aria-labelledby="titulo-pix">
-            <div class="detalhes-pagamento">
-                <p class="etapa">ETAPA 2 DE 2</p>
-                <h1 id="titulo-pix">Pague com PIX</h1>
-                <p class="instrucao">Escaneie o QR Code com o aplicativo do seu banco para concluir o pedido.</p>
-
-                <div class="produto-digital">
-                    <img src="./imagens/God Of War.png" alt="">
-                    <div>
-                        <span>Jogo digital</span>
-                        <h2>God of War Ragnarök</h2>
-                        <p>Entrega digital após a confirmação</p>
-                    </div>
-                    <strong>R$ 139,90</strong>
-                </div>
-
-                <div class="total-pix"><span>Total</span><strong>R$ 139,90</strong></div>
-                <div class="passos-pix">
-                    <p><span>1</span> Abra o app do seu banco</p>
-                    <p><span>2</span> Escolha pagar com PIX e leia o QR Code</p>
-                    <p><span>3</span> Confirme o pagamento no banco</p>
-                </div>
-            </div>
-
+        <section class="painel-pix" id="etapa-pix" aria-labelledby="titulo-pix">
+            <p class="etapa">PAGAMENTO PIX</p>
+            <h1 id="titulo-pix">Leia o QR Code</h1>
+            <p class="instrucao">Abra o aplicativo do seu banco e escaneie o código para continuar.</p>
             <div class="cartao-qr">
                 <span class="selo-demo">DEMONSTRAÇÃO</span>
-                <canvas id="pix-qr" width="232" height="232" role="img" aria-label="QR Code PIX ilustrativo. A cobrança real será conectada ao backend posteriormente."></canvas>
+                <canvas class="pix-qr" id="pix-qr" width="232" height="232" role="img" aria-label="QR Code PIX demonstrativo"></canvas>
                 <div class="marca-pix"><img src="./imagens/pix.png" alt="PIX"></div>
-                <p class="rotulo-qr">QR Code PIX demonstrativo</p>
-                <p class="aviso-qr">O código de cobrança real será gerado quando a integração de pagamento estiver conectada.</p>
-                <button class="botao-simular" id="simular-pagamento" type="button">Simular pagamento concluído</button>
-                <a class="voltar-checkout" href="./finalizar.php">Voltar ao pedido</a>
+                <p class="rotulo-qr">QR Code PIX</p>
+                <button class="botao-simular" id="simular-pagamento" type="button">Já li o QR Code</button>
             </div>
+            <a class="voltar-checkout" href="./finalizar.php">Voltar ao pedido</a>
         </section>
-
         <section class="painel-carregando" id="etapa-carregando" aria-live="polite" aria-busy="true" hidden>
             <span class="indicador-carregamento" aria-hidden="true"></span>
             <h1>Confirmando pagamento</h1>
@@ -87,9 +65,7 @@ require './data/auth.php';
 
     <script>
         (() => {
-            const canvas = document.getElementById('pix-qr');
-            const contexto = canvas.getContext('2d');
-            const modulo = 8;
+            const canvases = document.querySelectorAll('.pix-qr');
             const tamanho = 29;
             const matriz = Array.from({ length: tamanho }, () => Array(tamanho).fill(false));
             const reservado = Array.from({ length: tamanho }, () => Array(tamanho).fill(false));
@@ -116,15 +92,19 @@ require './data/auth.php';
                 }
             }
 
-            contexto.fillStyle = '#fff';
-            contexto.fillRect(0, 0, canvas.width, canvas.height);
-            contexto.fillStyle = '#201b25';
-            const margem = 0;
-            for (let y = 0; y < tamanho; y++) {
-                for (let x = 0; x < tamanho; x++) {
-                    if (matriz[y][x]) contexto.fillRect(margem + x * modulo, margem + y * modulo, modulo, modulo);
+            canvases.forEach((canvas) => {
+                const contexto = canvas.getContext('2d');
+                contexto.fillStyle = '#fff';
+                contexto.fillRect(0, 0, canvas.width, canvas.height);
+                contexto.fillStyle = '#201b25';
+                const margem = 0;
+                const moduloCanvas = canvas.width / tamanho;
+                for (let y = 0; y < tamanho; y++) {
+                    for (let x = 0; x < tamanho; x++) {
+                        if (matriz[y][x]) contexto.fillRect(margem + x * moduloCanvas, margem + y * moduloCanvas, moduloCanvas, moduloCanvas);
+                    }
                 }
-            }
+            });
 
             document.getElementById('simular-pagamento').addEventListener('click', () => {
                 const alfabeto = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';

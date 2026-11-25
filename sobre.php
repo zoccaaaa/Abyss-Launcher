@@ -1,17 +1,21 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre-Nós</title>
-    <link rel="stylesheet" href="/sobre.css">
-    <link rel="stylesheet" href="/header.css">
-    <link rel="stylesheet" href="/footer.css">
+    <title>Sobre nós | Abyss</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/sobre.css">
+    <link rel="stylesheet" href="./css/footer.css">
 </head>
 
 <body>
-    <?php include "/header.php" ?>
+    <?php require './view/header.php'; ?>
     <div class="hero">
         <div class="texto">
             <h1>Seu universo. <span>Do seu jeito.</span></h1>
@@ -69,18 +73,18 @@
                 <p>Seus jogos, suas escolhas, seus dados. Sem amarras e sem experiências invasivas</p>
             </div>
         </div>
-        <div class="card, card3">
+        <div class="card card3">
             <div class="frente">
                 <img class="logo" src="./imagens/image 24.png" alt="">
             </div>
             <div class="tras">
-                </div>
                 <img src="./imagens/estrela (1).png" alt="">
                 <h1>Sempre em evolução</h1>
                 <p>Cada atualização torna o Nexus mais rápido, simples e aberto a novas possibilidades.</p>
+            </div>
         </div>
     </div>
-    <?php include "/footer.php" ?>
+    <?php require './view/footer.php'; ?>
     <script src="informacao.js"></script>
 </body>
 

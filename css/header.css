@@ -123,6 +123,10 @@ justify-content: space-between;
 
       summary{
         display: block;
+        width: 60px;
+        height: 60px;
+        overflow: hidden;
+        border-radius: 50%;
         cursor: pointer;
         list-style: none;
 
@@ -130,10 +134,16 @@ justify-content: space-between;
 
         img{
           display: block;
+          height: 60px;
+          border-radius: 50%;
+          object-fit: cover;
           transition: transform .2s ease;
         }
 
+        img.foto-perfil-padrao{transform:scale(1.34);}
+
         &:hover img{transform:scale(1.06);}
+        &:hover img.foto-perfil-padrao{transform:scale(1.4);}
       }
 
       .opcoes-perfil{

@@ -99,7 +99,7 @@
         </div>
    </section>
 
-   <section class="descontos" aria-label="Descontos em destaque">
+   <section class="descontos" id="descontos" aria-label="Descontos em destaque">
         <div class="descontos-titulo">
             <h1>Descontos em destaque</h1>
             <div class="linha"></div>
@@ -126,7 +126,7 @@
         </div>
    </section>
 
-   <section class="lancamentos" aria-label="Novos lançamentos">
+   <section class="lancamentos" id="lancamentos" aria-label="Novos lançamentos">
         <div class="lancamentos-titulo">
             <h1>Novos lançamentos</h1>
             <div class="linha"></div>

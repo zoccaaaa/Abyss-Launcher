@@ -4,7 +4,7 @@ $tipoUsuario = $_SESSION['usuario_tipo'] ?? '';
 
 if ($usuarioLogado) {
     require_once __DIR__ . '/../data/conexao.php';
-    $consultaCabecalho = $conn->prepare('SELECT nome, tipo, ativo FROM usuarios WHERE id_usuario=?');
+    $consultaCabecalho = $conn->prepare('SELECT nome, tipo, ativo, foto_perfil FROM usuarios WHERE id_usuario=?');
     $consultaCabecalho->bind_param('i', $_SESSION['usuario_id']);
     $consultaCabecalho->execute();
     $usuarioCabecalho = $consultaCabecalho->get_result()->fetch_assoc();
@@ -22,6 +22,8 @@ if ($usuarioLogado) {
 }
 
 $usuarioAdmin = $usuarioLogado && $tipoUsuario === 'admin';
+$fotoCabecalhoPadrao = !$usuarioLogado || empty($usuarioCabecalho['foto_perfil']);
+$fotoCabecalho = !$fotoCabecalhoPadrao ? './' . ltrim($usuarioCabecalho['foto_perfil'], '/') : './imagens/perfil.png';
 $paginaAtual = basename($_SERVER['PHP_SELF'] ?? '');
 ?>
 <header>
@@ -29,7 +31,7 @@ $paginaAtual = basename($_SERVER['PHP_SELF'] ?? '');
       <img class="logo-abyss" src="./imagens/logo.png" alt="Abyss Launcher">
       <a href="./index.php" class="<?= $paginaAtual === 'index.php' ? 'ativo' : '' ?>">Início</a>
       <a href="./index.php#catalogo">Catálogo</a>
-      <a href="./index.php#sobre">Sobre nós</a>
+      <a href="./sobre.php" class="<?= $paginaAtual === 'sobre.php' ? 'ativo' : '' ?>">Sobre nós</a>
     </div>
 
     <div class="meio">
@@ -45,7 +47,7 @@ $paginaAtual = basename($_SERVER['PHP_SELF'] ?? '');
     <div class="direita">
       <details class="menu-perfil">
         <summary aria-label="Abrir opções da conta">
-          <img src="./imagens/perfil.png" alt="Foto de perfil">
+          <img class="<?= $fotoCabecalhoPadrao ? 'foto-perfil-padrao' : '' ?>" src="<?= htmlspecialchars($fotoCabecalho, ENT_QUOTES, 'UTF-8') ?>" alt="Foto de perfil">
         </summary>
         <nav class="opcoes-perfil" aria-label="Opções da conta">
           <?php if ($usuarioLogado): ?>
@@ -53,9 +55,7 @@ $paginaAtual = basename($_SERVER['PHP_SELF'] ?? '');
             <?php if ($usuarioAdmin): ?>
               <a class="opcao-admin" href="./painel.php">Painel administrativo</a>
             <?php endif; ?>
-            <?php if (!$usuarioAdmin): ?>
-              <a href="#editar-perfil">Editar perfil</a>
-            <?php endif; ?>
+            <a href="./perfil.php#editar-perfil">Editar perfil</a>
             <a href="./biblioteca.php">Biblioteca</a>
             <a href="./Carrinho-nv.php">Carrinho</a>
             <a href="./data/sair.php">Sair</a>

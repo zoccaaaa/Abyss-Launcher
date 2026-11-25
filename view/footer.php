@@ -19,16 +19,16 @@
 
         <div class="texto">
           <h2>Links Rápidos</h2>
-          <a href="#">Início</a>
-          <a href="#">Sobre Nós</a>
-          <a href="#">Catálogo</a>
+          <a href="./index.php">Início</a>
+          <a href="./sobre.php">Sobre Nós</a>
+          <a href="./index.php#catalogo">Catálogo</a>
         </div>
 
         <div class="texto">
           <h2>Explore</h2>
-          <a href="#">Categorias</a>
-          <a href="#">Lançamentos</a>
-          <a href="#">Mais vendidos</a>
+          <a href="./index.php#catalogo">Categorias</a>
+          <a href="./index.php#lancamentos">Lançamentos</a>
+          <a href="./index.php#descontos">Descontos</a>
         </div>
       </div>
     </div>
